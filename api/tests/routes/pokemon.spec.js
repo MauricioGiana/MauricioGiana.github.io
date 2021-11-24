@@ -21,4 +21,35 @@ describe('Pokemon routes', () => {
       agent.get('/pokemons').expect(200)
     );
   });
+
+  describe('POST /pokemons', function () {
+    it('responde con 302', function(){
+      return agent.post('/pokemons')
+        .send({
+          name: "Giana",
+          types: ["Fire", "Poison", "Birra"],
+        })
+        .expect(302);
+    });
+    it('crea un Pokemon en la base de datos', function(){
+      return agent.post('/pokemons')
+        .send({
+          name: "Giana",
+          type: "Fuego",
+        })
+        .then(() => {
+          return Pokemon.findOne({
+            where: {
+              name: 'Giana'
+            }
+          });
+        })
+        .then(pokemon => {
+          expect(pokemon).to.exist;
+        });
+    });
+  });
+
+
+
 });
