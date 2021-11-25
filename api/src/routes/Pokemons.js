@@ -6,29 +6,59 @@ const { Pokemon, Type } = require('../db');
 
 const totalPokemons = 898;
 const totalPages = 75;
-let pokemons;
 
+let pokemonsApi;
 
 router.get("/", async (req, res, next) => {
     if (req.query.name) {
-        const pokemon = await fetchPokemons(req.query.name);
-        res.send(pokemon)
+        const pokemonApi = await fetchPokemons(req.query.name);
+        const pokemonDb = await Pokemon.findOne({ where: { name: req.query.name } });
+        if (pokemonApi && pokemonDb) return res.json([pokemonApi, pokemonDb]);
+        if (pokemonApi) return res.json(pokemonApi);
+        if (pokemonDb) return res.json(pokemonDb);
+        return res.status(404).json({ message: "Pokemon not found" });
     }
     const pokemonsDb = await Pokemon.findAll();
-    if (!pokemons) pokemons = await fetchPokemons();
-
-    
-    
-
-    
-    res.send(pokemons);
-
+    if (req.query.filter === "db")  return res.json(pokemonsDb);
+    if (!pokemonsApi) pokemonsApi = await fetchPokemons();
+    if (req.query.filter === "api") return res.json(pokemonsApi);
+    const pokemons = [...pokemonsApi, ...pokemonsDb];
+    if (req.query.type) {
+        const pokemonsFiltered = pokemons.filter(pokemon => pokemon.types.some(type => type.name === req.query.type));
+        return res.json(pokemonsFiltered);
+    }
+    if (req.query.order) {
+        const {order} = req.query;
+        const [prop, ord] = order.split("-");
+        if (ord === "asc") pokemons.sort((a, b) => {
+            if (a[prop] > b[prop]) return 1;
+            if (a[prop] < b[prop]) return -1;
+            return 0;
+        })
+        else pokemons.sort((a, b) => {
+            if (a[prop] < b[prop]) return 1;
+            if (a[prop] > b[prop]) return -1;
+            return 0;
+        })
+    }
+    if (req.query.page) {
+        const {page} = req.query;
+        const totalPages = Math.ceil(pokemons.length / 6);
+        if (page > totalPages) return res.status(400).json({msg: "Page not found"})
+        let end = page * 6; start = end - 6;
+        return res.json(pokemons.slice(start, end));
+    }
+    res.json(pokemons);
 });
 
 router.get("/:idPokemon", async (req, res) => {
     const { idPokemon } = req.params;
-    const data = await fetchPokemons(idPokemon);
-    res.send(data);
+    const pokemonApi = await fetchPokemons(idPokemon);
+    const pokemonDb = await Pokemon.findOne({ where: { id: idPokemon } });
+    if (pokemonApi && pokemonDb) return res.json([pokemonApi, pokemonDb]);
+    else if (pokemonApi) return res.json(pokemonApi);
+    else if (pokemonDb) return res.json(pokemonDb);
+    return res.status(404).json({ message: "Pokemon not found" });
 });
 
 router.post("/", async (req, res, next) => {
@@ -58,8 +88,8 @@ async function fetchPokemons(argument) {
         url = "https://pokeapi.co/api/v2/pokemon";
         const result = await fetchFunc(url);
         await result.get(0, 15);
-        await result.get(15, 30);
-        await result.get(30, 40);
+        /* await result.get(15, 30);
+        await result.get(30, 40); */
         return result.pokemons;
     } 
     url = `https://pokeapi.co/api/v2/pokemon/${argument}`;
@@ -77,20 +107,21 @@ async function fetchFunc(url) {
             pokemons,
             get: async (start, end) => {
                 await axios.all(results.slice(start, end).map(result => axios(result.url)))
-                    .then(axios.spread((...args) => {
-                        args.forEach(arg => {
+                    .then((response) => {
+                        response.forEach(result => {
                             pokemons.push({
-                                name: arg.data.name,
-                                id: arg.data.id,
-                                image: arg.data.sprites.other?.home.front_default,
-                                types: arg.data.types.map(type => ({
+                                name: result.data.name,
+                                id: result.data.id,
+                                attack: result.data.stats[1].base_stat,
+                                image: result.data.sprites.other.home.front_default,
+                                types: result.data.types.map(type => ({
                                     name: type.type.name,
                                     id: type.slot
                                 }))
                             });
                         });
                     }
-                    ))
+                    )
                 return pokemons
             }
         }
@@ -113,12 +144,7 @@ async function fetchFunc(url) {
     }
 }
 
-async function getPokeNames() {
-    const { data: result1 } = await axios.get("https://pokeapi.co/api/v2/pokemon");
-    const { data: result2 } = await axios.get(result1.next);
-    const results = [...result1.results.map(res => res.name), ...result2.results.map(res => res.name)];
-    return results;
-}
+
 
 
 
