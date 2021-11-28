@@ -11,7 +11,18 @@ export class Pokemons extends Component {
         }
     }
 
-    componentDidMount = async () => {
+    /* componentDidMount = async () => {
+        try {
+            
+            await this.props.getPokemons(`page=${this.props.page}`);
+            this.setState({ loading: false });
+        }
+        catch (error) {
+            console.log(error);
+        }
+    } */
+
+    /* componentDidUpdate = async () => {
         try {
             await this.props.getPokemons(`page=${this.props.page}`);
             this.setState({ loading: false });
@@ -19,12 +30,9 @@ export class Pokemons extends Component {
         catch (error) {
             console.log(error);
         }
-    }
+    } */
 
     render() {
-        if (this.state.loading) {
-            return <h1>Loading...</h1>
-        }
         return (
             <div>
                 {
@@ -48,7 +56,6 @@ export class Pokemons extends Component {
 export const mapStateToProps = (state) => {
     return {
         pokemons: state.pokemons,
-        page: state.page,
     }
 };
 
