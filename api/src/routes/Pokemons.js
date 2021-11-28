@@ -8,34 +8,34 @@ const totalPokemons = 898;
 const totalPages = 75;
 
 let pokemonsApi;
+let response;
 
 router.get("/", async (req, res, next) => {
     if (req.query.name) {
         const pokemonApi = await fetchPokemons(req.query.name);
         const pokemonDb = await Pokemon.findOne({ where: { name: req.query.name } });
-        if (pokemonApi && pokemonDb) return res.json([pokemonApi, pokemonDb]);
         if (pokemonApi) return res.json(pokemonApi);
         if (pokemonDb) return res.json(pokemonDb);
         return res.status(404).json({ message: "Pokemon not found" });
     }
     const pokemonsDb = await Pokemon.findAll();
-    if (req.query.filter === "db")  return res.json(pokemonsDb);
+    if (req.query.filter === "db")  response = pokemonsDb;
     if (!pokemonsApi) pokemonsApi = await fetchPokemons();
-    if (req.query.filter === "api") return res.json(pokemonsApi);
-    const pokemons = [...pokemonsApi, ...pokemonsDb];
-    if (req.query.type) {
+    if (req.query.filter === "api") response = pokemonsApi;
+    if (!req.query.filter) response = [...pokemonsApi, ...pokemonsDb];
+    /* if (req.query.type) {
         const pokemonsFiltered = pokemons.filter(pokemon => pokemon.types.some(type => type.name === req.query.type));
         return res.json(pokemonsFiltered);
-    }
+    } */
     if (req.query.order) {
         const {order} = req.query;
         const [prop, ord] = order.split("-");
-        if (ord === "asc") pokemons.sort((a, b) => {
+        if (ord === "asc") response.sort((a, b) => {
             if (a[prop] > b[prop]) return 1;
             if (a[prop] < b[prop]) return -1;
             return 0;
         })
-        else pokemons.sort((a, b) => {
+        else response.sort((a, b) => {
             if (a[prop] < b[prop]) return 1;
             if (a[prop] > b[prop]) return -1;
             return 0;
@@ -43,21 +43,20 @@ router.get("/", async (req, res, next) => {
     }
     if (req.query.page) {
         const {page} = req.query;
-        const totalPages = Math.ceil(pokemons.length / 6);
+        const totalPages = Math.ceil(response.length / 6);
         if (page > totalPages) return res.status(400).json({msg: "Page not found"})
         let end = page * 6; start = end - 6;
-        return res.json(pokemons.slice(start, end));
+        return res.json(response.slice(start, end));
     }
-    res.json(pokemons);
+    res.json(response);
 });
 
 router.get("/:idPokemon", async (req, res) => {
-    const { idPokemon } = req.params;
+    const {idPokemon} = req.params;
     const pokemonApi = await fetchPokemons(idPokemon);
-    const pokemonDb = await Pokemon.findOne({ where: { id: idPokemon } });
-    if (pokemonApi && pokemonDb) return res.json([pokemonApi, pokemonDb]);
-    else if (pokemonApi) return res.json(pokemonApi);
-    else if (pokemonDb) return res.json(pokemonDb);
+    /* const pokemonDb = await Pokemon.findOne({ where: { id: idPokemon } }); */
+    if (pokemonApi) return res.json(pokemonApi);
+    /* if (pokemonDb) return res.json(pokemonDb); */
     return res.status(404).json({ message: "Pokemon not found" });
 });
 
@@ -73,6 +72,8 @@ router.post("/", async (req, res, next) => {
         const pokemon = await Pokemon.create({
             name, image, height, weight, hp, attack, defense, speed
         });
+        await Pokemon.addTypes(pokemon.id, types);
+        await Type.addPokemons(types, pokemon.id);
         res.status(302).send(pokemon);
     } catch (error) {
         next(error);
@@ -110,14 +111,14 @@ async function fetchFunc(url) {
                     .then((response) => {
                         response.forEach(result => {
                             pokemons.push({
-                                name: result.data.name,
+                                name: result.data.name[0].toUpperCase() + result.data.name.slice(1),
                                 id: result.data.id,
                                 attack: result.data.stats[1].base_stat,
                                 image: result.data.sprites.other.home.front_default,
                                 types: result.data.types.map(type => ({
                                     name: type.type.name,
-                                    id: type.slot
-                                }))
+                                    id: type.type.url.split("/").slice(-2)[0]
+                                })),
                             });
                         });
                     }
@@ -128,7 +129,7 @@ async function fetchFunc(url) {
     } 
     const { data } = await axios(url);
     return {
-        name: data.name,
+        name: data.name[0].toUpperCase() + data.name.slice(1),
         id: data.id,
         height: data.height,
         weight: data.weight,
@@ -139,8 +140,8 @@ async function fetchFunc(url) {
         image: data.sprites.other?.home.front_default,
         types: data.types.map(type => ({
             name: type.type.name,
-            id: type.slot
-        }))
+            id: type.type.url.split("/").slice(-2)[0]
+        })),
     }
 }
 

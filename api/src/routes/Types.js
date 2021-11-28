@@ -16,7 +16,7 @@ router.get("/", validateType, async (req, res) => {
             });
         }))
     }
-    
+    typesApi.sort((a, b) => a.id - b.id);
     res.send(typesApi);
 });
 
