@@ -3,26 +3,33 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate, useLocation } from 'react-router';
 import { getPokemons, changePage } from '../../redux/actions';
 import Pokemons from '../Pokemons/Pokemons';
+import SearchResults from '../SearchResults/SearchResults';
 
 export default function Home() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const {search} = useLocation();
     console.log("search:", search);
-    const page = search.length ? Number(search.split('=')[1]) : 1;
+    let query, value;
+    if (search) {
+        query = search.slice(1).split('=')[0];
+        const parseValue = Number(search.slice(1).split('=')[1])
+        value = query === "page" ? parseValue : search.slice(1).split('=')[1];
+    }
     const [loading, setLoading] = useState(true);
 
-    
     const firstPage = (event) => {
-        navigate("/pokemons?page=1");
+        event.preventDefault();
+        navigate("/pokemons");
     }
 
     const nextPage = (event) => {
-        navigate(`/pokemons?page=${page + 1}`)
+        event.preventDefault();
+        if (query === "page") navigate(`/pokemons?page=${value + 1}`);
+        if (!query) navigate(`/pokemons?page=2`);
     }
-    console.log("pagenumber: ", page);
 
-    const endpoint = typeof page === 'number' ? `page=${page}` : "page=1";
+    const endpoint = typeof value === 'number' ? `${query}=${value}` : "page=1";
 
     useEffect(() => {
         const fetchData = async () => {
@@ -35,10 +42,18 @@ export default function Home() {
             }
         }
         fetchData();
-    }, [page]);
+    }, [endpoint, dispatch]);
 
     const pokemons = useSelector(state => state.pokemons.pokemons);
-    console.log("pokemons: ", pokemons);
+
+    if (query === "search" && value.length) {
+        return (
+            <div>
+                <h2>Search results</h2>
+                <SearchResults name={value}/>
+            </div>
+        )
+    }
 
     return (
         <div>

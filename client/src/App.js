@@ -20,7 +20,6 @@ function App() {
         <Route path="/pokemons/:id" element={<PokemonDetalis />} />
         <Route path="/pokemons/create" element={<CreatePokemon />} />
         <Route path="/pokemons/favorites" element={<Favorites />} />
-        <Route path="/pokemons/search/:name" element={<SearchResults />} />
       </Routes>
     </div>
   );
