@@ -20,7 +20,7 @@ router.get("/", async (req, res, next) => {
             return res.status(404).json({ message: "Pokemon not found" });
         }
         const pokemonsDb = await Pokemon.findAll({
-            attributes: ['id', 'name', 'image', 'attack'],
+            attributes: ['id', 'name', 'image', 'attack', "isCreated"],
         });
         if (req.query.filter === "db") response = pokemonsDb;
         if (!pokemonsApi) pokemonsApi = await fetchPokemons();
@@ -49,6 +49,12 @@ router.get("/", async (req, res, next) => {
             response = response.filter(pokemon => pokemon.name.toLowerCase().includes(search.toLowerCase()));
         } */
         const totalPages = Math.ceil(response.length / 6);
+        if(req.query.getallpokemons) {
+            return res.json({
+                totalPages,
+                results: response
+            });
+        }
         if (req.query.page) {
             const { page } = req.query;
             if (1 > page > totalPages) return res.status(400).json({ msg: "Page not found" })
@@ -56,12 +62,6 @@ router.get("/", async (req, res, next) => {
             return res.json({
                 totalPages,
                 results: response.slice(start, end)
-            });
-        }
-        if(req.query.getallpokemons) {
-            return res.json({
-                totalPages,
-                results: response
             });
         }
         res.json({
@@ -104,7 +104,7 @@ router.post("/", async (req, res, next) => {
     }
 });
 
-router.post("/edit/:idPokemon", async (req, res, next) => {
+router.put("/edit/:idPokemon", async (req, res, next) => {
     const {
         name, image, height, weight, hp, attack, defense, speed, types
     } = req.body;
@@ -118,30 +118,30 @@ router.post("/edit/:idPokemon", async (req, res, next) => {
             for (let key in params) {
                 if (params[key]) newParams[key] = params[key];
             }
-            const editedPokemon = await Pokemon.update(newParams, { where: { id: idPokemon } });
-            res.json(editedPokemon);
+            await Pokemon.update(newParams, { where: { id: idPokemon } });
+            res.json({ message: "Pokemon edited successfuly" });
         }
     } catch (error) {
         next(error);
     }
 });
 
-router.post("/delete/:idPokemon", async (req, res, next) => {
+router.delete("/delete/:idPokemon", async (req, res, next) => {
     const { idPokemon } = req.params;
     try {
         if (idPokemon) {
             const deletedPokemon = await Pokemon.destroy({ where: { id: idPokemon } });
-            return res.json(deletedPokemon);
+            return res.json({ message: "Pokemon deleted" });
         }
     } catch (error) {
         next(error);
     }
 });
 
-router.post("/clearcreatedpokemons", async (req, res, next) => {
+router.delete("/clearcreatedpokemons", async (req, res, next) => {
     try {
-        const deletedPokemons = await Pokemon.destroy({ truncate: true });
-        return res.json(deletedPokemons);
+        const deletedPokemons = await Pokemon.destroy({where: {}});
+        return res.json({ message: "All pokemons deleted" });
     } catch (error) {
         next(error);
     }
@@ -218,7 +218,30 @@ async function fetchFunc(url) {
     }
 }
 
+const axiosPokemons = async () => {
+    const {data: page1} = await axios("https://pokeapi.co/api/v2/pokemon");
 
+    const nextPage = page1.next;
+    
+    const pokemons1 = await axios.all(page1.results.map(async (result) => {
+        const {data} = await axios(result.url);
+        return {
+            name: data.name,
+            id: data.id,
+        }
+    }));
+
+    const {data: page2} = await axios(nextPage);
+
+    const pokemons2 = await axios.all(page2.results.map(async (result) => {
+        const {data} = await axios(result.url);
+        return {
+            name: data.name,
+            id: data.id,
+        }
+    }));
+    const totalPokemons = [...pokemons1, ...pokemons2];
+}
 
 
 

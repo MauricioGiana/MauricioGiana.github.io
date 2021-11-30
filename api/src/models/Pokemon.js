@@ -16,24 +16,31 @@ module.exports = (sequelize) => {
     },
     hp: {
       type: DataTypes.INTEGER,
+      defaultValue: 0,
     },
     attack: {
-      type: DataTypes.INTEGER
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
     },
     defense: {
-      type: DataTypes.INTEGER
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
     },
     speed: {
-      type: DataTypes.INTEGER
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
     },
     height: {
-      type: DataTypes.INTEGER
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
     },
-    wight: {
-      type: DataTypes.INTEGER
+    weight: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
     },
     image: {
       type: DataTypes.STRING,
+      defaultValue: "https://c4.wallpaperflare.com/wallpaper/968/890/504/pokemon-poke-balls-wet-wallpaper-preview.jpg"
     },
     isCreated: {
       type: DataTypes.BOOLEAN,

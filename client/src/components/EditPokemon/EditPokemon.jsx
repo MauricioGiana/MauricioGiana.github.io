@@ -1,22 +1,25 @@
+import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router';
-import { getTypes, createPokemon } from "../../redux/actions";
+import {useParams, useNavigate} from 'react-router-dom';
+import { getTypes, editPokemon, getPokemon } from "../../redux/actions";
 
 export default function CreatePokemon() {
-    const [input, setInput] = useState({
-        types: [],
-    });
+    const {idPokemon} = useParams();
+    const [input, setInput] = useState({});
 
     const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+
     const dispatch = useDispatch();
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 await dispatch(getTypes());
+                const {data} = await axios(`http://localhost:3001/pokemons/${idPokemon}`);
+                setInput(data);
                 setLoading(false);
             } catch (error) {
                 console.log(error);
@@ -64,8 +67,8 @@ export default function CreatePokemon() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        navigate("/pokemons/mypokemons");
-        const response = await dispatch(createPokemon(input));
+        await dispatch(editPokemon(idPokemon, input));
+        navigate(-1)
     }
 
     if (loading) {
@@ -78,15 +81,11 @@ export default function CreatePokemon() {
                 <div>
                     <label>Pokemon name:</label>
                     <input
-                        className={errors.name && "danger"}
                         type="text"
                         name="name"
                         value={input.name}
                         onChange={handleChange}
                     />
-                    {errors.name && (
-                        <p className="danger">{errors.name}</p>
-                    )}
                 </div>
                 <div>
                     <label>Image:</label>
@@ -94,7 +93,6 @@ export default function CreatePokemon() {
                         type="url"
                         name="image"
                         value={input.image}
-                        onChange={handleChange}
                     />
                 </div>
                 <div>
@@ -122,13 +120,13 @@ export default function CreatePokemon() {
                     }
                 </select>
                 {
-                    input.types.length > 0 && input.types.map((type) => (
+                    input.types?.length && input.types.map((type) => (
                         <div key={type.id}>
                             <input type="button" value={type.name} onClick={addOrQuitType}/>
                         </div>
                     ))}
                 </div>
-            <input type="submit" disabled={Object.keys(errors).length} />
+            <input type="submit" onSubmit={handleSubmit}/>
             </form>
         </div>
     );

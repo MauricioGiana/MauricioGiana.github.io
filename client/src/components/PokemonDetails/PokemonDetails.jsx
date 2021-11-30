@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import { useNavigate } from 'react-router-dom';
-import { getPokemon } from "../../redux/actions";
+import { getPokemon, deletePokemon } from "../../redux/actions";
 
 
 const PokemonDetails = () => {
@@ -27,6 +27,19 @@ const PokemonDetails = () => {
     const pokemonDetails = useSelector(state => state.pokemon);
     console.log("result:", pokemonDetails);
 
+    const deleteFunction = (event) => {
+        event.preventDefault();
+        const deleteFunc = async () => {
+            try {
+                await dispatch(deletePokemon(pokemonDetails.id));
+                navigate(-1);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        deleteFunc();
+    }
+
     if (loading) {
         return <h1>Loading...</h1>
     }
@@ -36,6 +49,14 @@ const PokemonDetails = () => {
             <div>
                 <input type="button" value="Go Back" onClick={() => navigate(-1)} />
             </div>
+            {
+                pokemonDetails.isCreated && (
+                    <div>
+                        <input type="button" value="Edit pokemon" onClick={() => navigate(`/pokemons/edit/${pokemonDetails.id}`)} />
+                        <input type="button" value="Delete pokemon" onClick={deleteFunction}/>
+                    </div>
+                )
+            }
             <h2>{pokemonDetails.name}</h2>
             <img src={pokemonDetails.image} alt={pokemonDetails.name} />
             <p>Id: {pokemonDetails.id}</p>

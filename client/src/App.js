@@ -7,6 +7,8 @@ import CreatePokemon from './components/CreatePokemon/CreatePokemon';
 import NavBar from './components/NavBar/NavBar';
 import Favorites from './components/Favorites/Favorites';
 import SearchResults from './components/SearchResults/SearchResults';
+import MyPokemons from './components/MyPokemons/MyPokemons';
+import EditPokemon from './components/EditPokemon/EditPokemon';
 
 function App() {
   return (
@@ -20,6 +22,8 @@ function App() {
         <Route path="/pokemons/:id" element={<PokemonDetalis />} />
         <Route path="/pokemons/create" element={<CreatePokemon />} />
         <Route path="/pokemons/favorites" element={<Favorites />} />
+        <Route path="/pokemons/mypokemons" element={<MyPokemons />} />
+        <Route path="/pokemons/edit/:idPokemon" element={<EditPokemon />} />
       </Routes>
     </div>
   );

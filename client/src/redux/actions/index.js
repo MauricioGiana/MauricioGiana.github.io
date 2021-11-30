@@ -3,13 +3,15 @@ import axios from 'axios';
 export const GET_POKEMONS = 'GET_POKEMONS';
 export const GET_POKEMON = "GET_POKEMON";
 export const CREATE_POKEMON = 'CREATE_POKEMON';
-export const DELETE_POKEMON = 'DELETE_POKEMON';
 export const GET_TYPES = 'GET_TYPES';
 export const CREATE_TYPE = 'CREATE_TYPE';
 export const GET_POKEMONS_BY_TYPE = 'GET_POKEMONS_BY_TYPE';
 export const ADD_FAVORITE = 'ADD_FAVORITE';
 export const SEARCH_POKEMON = 'SEARCH_POKEMON';
 export const CHANGE_PAGE = 'CHANGE_PAGE';
+export const EDIT_POKEMON = 'EDIT_POKEMON';
+export const DELETE_POKEMON = "DELETE_POKEMON";
+export const DELETE_ALL_POKEMONS = "DELETE_ALL_POKEMONS";
 
 /* 
 query name
@@ -64,21 +66,20 @@ export const getTypes = () => {
     }
 }
 
-export const createPokemon = (pokemon) => {
-    return async dispatch => {
-        const { data } = await axios.post("http://localhost:3001/pokemons", pokemon);
-        dispatch({
-            type: CREATE_POKEMON,
-            payload: data
-        })
-    }
+export const createPokemon = async (pokemon) => {
+        try {
+            const { data } = await axios.post("http://localhost:3001/pokemons", pokemon);
+            return data
+        } catch (error) {
+            console.log(error);
+        }
 }
 
 
 export const getPokemonsByType = (type) => {
     return async dispatch => {
         const { data } = await axios("http://localhost:3001/pokemons?getallpokemons=true");
-        const pokemonsFiltered = data.results.filter(pokemon => pokemon.types.some(t => t.name === type));
+        const pokemonsFiltered = data.results.filter(pokemon => pokemon.types?.some(t => t.name === type));
         dispatch({
             type: GET_POKEMONS_BY_TYPE,
             payload: pokemonsFiltered
@@ -93,12 +94,28 @@ export const addFavorite = (id) => dispatch => {
     })
 }
 
-export const searchPokemon = (name) => dispatch => {
-    dispatch({
-        type: SEARCH_POKEMON,
-        payload: name
-    })
+export const searchPokemon = async (name) => {
+    const { data } = await axios(`http://localhost:3001/pokemons?getallpokemons=true`);
+    const filteredPokemons = data.results.filter(pokemon => pokemon.name.toLowerCase().includes(name.toLowerCase()));
+    return filteredPokemons;
 }
+
+export const editPokemon = async (idPokemon, pokemon) => {
+    const { data } = await axios.put(`http://localhost:3001/pokemons/edit/${idPokemon}`, pokemon);
+    return data
+}
+
+export const deletePokemon = async (idPokemon) => {
+    const { data } = await axios.delete(`http://localhost:3001/pokemons/delete/${idPokemon}`);
+    return data
+}
+
+export const deleteAllPokemons = async () => {
+    const { data } = await axios.delete(`http://localhost:3001/pokemons/clearcreatedpokemons`);
+    return data
+}
+
+
 
 
 

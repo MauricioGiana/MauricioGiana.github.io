@@ -4,7 +4,7 @@ import { useParams, useNavigate, useLocation } from 'react-router';
 import PokemonCard from '../PokemonCard/PokemonCard';
 import { getPokemons } from '../../redux/actions';
 
-export default function Pokemons() {
+export default function Pokemons({ mypokemons }) {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     let endpoint = useLocation().search;
@@ -26,7 +26,9 @@ export default function Pokemons() {
 
     console.log("endpoint", endpoint)
 
-    const pokemons = useSelector(state => state.pokemons);
+    let pokemons = useSelector(state => state.pokemons);
+
+    if (mypokemons) pokemons = mypokemons;
 
     if (loading) return <h2>Loading...</h2>
     if (!pokemons.length) return <h2>No pokemons found</h2>
@@ -41,7 +43,7 @@ export default function Pokemons() {
                         name={pokemon.name}
                         types={pokemon.types}
                         image={pokemon.image}
-                        isFavorite={pokemon.isFavorite}
+                        isCreated={pokemon.isCreated}
                     />
                 })
             }

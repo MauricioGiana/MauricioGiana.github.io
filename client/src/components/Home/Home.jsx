@@ -11,7 +11,7 @@ export default function Home() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     let endpoint = useLocation().search;
-    endpoint = endpoint.length > 0 ? endpoint : false;
+    endpoint = endpoint.length ? endpoint : false;
     const [loading, setLoading] = useState(true);
     const totalRecords = useSelector(state => state.totalPages);
 
@@ -30,7 +30,9 @@ export default function Home() {
         else if (!endpoint) navigate(`/pokemons?page=2`);
     }
 
-    
+    if (endpoint && endpoint.includes("search")) {
+        return <SearchResults/>
+    }
 
     return (
         <div>
@@ -38,13 +40,7 @@ export default function Home() {
             <h3>Pokemons</h3>
             <Filters />
             <Pokemons/>
-            <input type="button" value="Next Page" onClick={nextPage} />
-            <input type="button" value="First Page" onClick={firstPage} />
-            {
-                [1, 2, 3].map(page => {
-                    return <input type="button" value={page} onClick={() => navigate(`/pokemons?page=${page}`)} />
-                })
-            }
+            <Pagination/>
         </div>
     );
 };

@@ -4,25 +4,27 @@ import { useParams, useLocation } from "react-router";
 import PokemonCard from "../PokemonCard/PokemonCard";
 import { getPokemons, searchPokemon } from "../../redux/actions";
 
-export default function SearchResults({ name }) {
+export default function SearchResults() {
     const { search } = useLocation();
-    const dispatch = useDispatch();
+    let name = search.split("=")[1]
+    const [searchResults, setSearchResults] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         try {
             const fetchData = async () => {
-                await dispatch(getPokemons("?getallpokemons=true"));
-                dispatch(searchPokemon(search));
+                const data = await searchPokemon(name);
+                setSearchResults(data);
                 setLoading(false);
             };
             fetchData();
         }   catch (error) {
             console.log(error);
         }
-    }, [dispatch]);
+    }, [name]);
 
-    const searchResults = useSelector(state => state.searchResults);
+
+    console.log("searchs", searchResults);
     
     if (loading) {
         return <div>Loading results...</div>

@@ -11,6 +11,7 @@ export default function NavBar() {
             <input type="button" value="Home" onClick={() => navigate("/pokemons")}/>
             <input type="button" value="Create Pokemon" onClick={() => navigate("/pokemons/create")}/>
             <input type="button" value="Favorites" onClick={() => navigate("/pokemons/favorites")}/>
+            <input type="button" value="My Pokemons" onClick={() => navigate("/pokemons/mypokemons")}/>
             <SearchBar/>
         </nav>
     )

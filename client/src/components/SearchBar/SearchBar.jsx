@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router';
 import { searchPokemon } from '../../redux/actions';
 import SearchResults from '../SearchResults/SearchResults';
@@ -9,6 +9,7 @@ export default function SearchBar() {
     const navigate = useNavigate();
     const { search } = useLocation();
     console.log(search);
+    const dispatch = useDispatch();
 
     const handleChange = (event) => {
         const { value } = event.target;

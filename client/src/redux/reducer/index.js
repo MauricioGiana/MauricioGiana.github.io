@@ -5,6 +5,7 @@ import { GET_POKEMON, GET_POKEMONS, CREATE_POKEMON,
 
 const initialState = {
     pokemons: [],
+    allPokemons: [],
     totalPages: 0,
     pokemon: {},
     types: [],
@@ -44,7 +45,7 @@ const rootReducer = (state = initialState, {type, payload}) => {
         case SEARCH_POKEMON:
             return {
                 ...state,
-                searchResults: state.pokemons.filter(pokemon => pokemon.name.toLowerCase().includes(payload.toLowerCase()))
+                searchResults: payload
             };
         /* case CHANGE_PAGE:
             return {
