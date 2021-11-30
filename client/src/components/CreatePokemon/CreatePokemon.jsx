@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
-import { getTypes, createPokemon } from "../../redux/actions";
+import { getTypes } from "../../redux/actions";
+import { createPokemon } from '../../Controllers';
 
 export default function CreatePokemon() {
     const [input, setInput] = useState({
@@ -62,10 +63,18 @@ export default function CreatePokemon() {
 
 
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        navigate("/pokemons/mypokemons");
-        const response = await dispatch(createPokemon(input));
+    const handleSubmit = (event) => {
+        const create = async () => {
+            try {
+                event.preventDefault();
+                navigate("/pokemons/mypokemons");
+                const response = await dispatch(createPokemon(input));
+                console.log(response);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        create();
     }
 
     if (loading) {

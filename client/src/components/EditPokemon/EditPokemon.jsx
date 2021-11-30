@@ -2,7 +2,8 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {useParams, useNavigate} from 'react-router-dom';
-import { getTypes, editPokemon, getPokemon } from "../../redux/actions";
+import { getTypes, getPokemon } from "../../redux/actions";
+import { editPokemon } from '../../Controllers';
 
 export default function CreatePokemon() {
     const {idPokemon} = useParams();
@@ -67,7 +68,7 @@ export default function CreatePokemon() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        await dispatch(editPokemon(idPokemon, input));
+        const data = await editPokemon(idPokemon, input);
         navigate(-1)
     }
 

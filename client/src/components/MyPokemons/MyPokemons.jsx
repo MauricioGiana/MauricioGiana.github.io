@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import { useNavigate } from 'react-router-dom';
-import { getPokemon, deleteAllPokemons } from "../../redux/actions";
+import { getPokemon } from "../../redux/actions";
 import Pokemons from '../Pokemons/Pokemons';
+import { deleteAllPokemons } from '../../Controllers';
 import axios from 'axios';
 
 export default function MyPokemons() {
@@ -24,7 +25,7 @@ export default function MyPokemons() {
 
     const handleDeleteAll = async (event) => {
         event.preventDefault();
-        await dispatch(deleteAllPokemons());
+        const data = await deleteAllPokemons();
         setMyPokemons([]);
     }
 

@@ -2,7 +2,8 @@ import { useState, useMemo, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams, useLocation } from "react-router";
 import PokemonCard from "../PokemonCard/PokemonCard";
-import { getPokemons, searchPokemon } from "../../redux/actions";
+import { getPokemons } from "../../redux/actions";
+import { searchPokemon } from "../../Controllers";
 
 export default function SearchResults() {
     const { search } = useLocation();

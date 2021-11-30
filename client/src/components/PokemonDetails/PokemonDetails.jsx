@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import { useNavigate } from 'react-router-dom';
-import { getPokemon, deletePokemon } from "../../redux/actions";
+import { getPokemon } from "../../redux/actions";
+import { deletePokemon } from '../../Controllers';
 
 
 const PokemonDetails = () => {
@@ -31,7 +32,7 @@ const PokemonDetails = () => {
         event.preventDefault();
         const deleteFunc = async () => {
             try {
-                await dispatch(deletePokemon(pokemonDetails.id));
+                const data = await deletePokemon(pokemonDetails.id);
                 navigate(-1);
             } catch (error) {
                 console.log(error);
