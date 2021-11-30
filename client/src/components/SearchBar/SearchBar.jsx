@@ -13,7 +13,7 @@ export default function SearchBar() {
     const handleChange = (event) => {
         const { value } = event.target;
         if (!value || !value.length) navigate("/pokemons");
-        navigate(`/pokemons?search=${value}`);
+        else navigate(`/pokemons?search=${value}`);
     }
 
     const handleSubmit = (event) => {

@@ -1,68 +1,55 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams, useNavigate, useLocation } from 'react-router';
 import PokemonCard from '../PokemonCard/PokemonCard';
 import { getPokemons } from '../../redux/actions';
 
-export class Pokemons extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            loading: true,
-        }
-    }
+export default function Pokemons() {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    let endpoint = useLocation().search;
+    endpoint = endpoint.length ? endpoint : false;
+    const [loading, setLoading] = useState(true);
 
-    /* componentDidMount = async () => {
-        try {
-            
-            await this.props.getPokemons(`page=${this.props.page}`);
-            this.setState({ loading: false });
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                await dispatch(getPokemons(endpoint));
+                setLoading(false);
+            }
+            catch (error) {
+                console.log(error);
+            }
         }
-        catch (error) {
-            console.log(error);
-        }
-    } */
+        fetchData();
+    }, [endpoint, dispatch]);
 
-    /* componentDidUpdate = async () => {
-        try {
-            await this.props.getPokemons(`page=${this.props.page}`);
-            this.setState({ loading: false });
-        }
-        catch (error) {
-            console.log(error);
-        }
-    } */
+    console.log("endpoint", endpoint)
 
-    render() {
-        return (
-            <div>
-                {
-                    this.props.pokemons?.map((pokemon) => {
-                        return <PokemonCard 
+    const pokemons = useSelector(state => state.pokemons);
+
+    if (loading) return <h2>Loading...</h2>
+    if (!pokemons.length) return <h2>No pokemons found</h2>
+
+    return (
+        <div>
+            {
+                pokemons?.map((pokemon) => {
+                    return <PokemonCard
                         key={pokemon.id}
                         id={pokemon.id}
                         name={pokemon.name}
                         types={pokemon.types}
                         image={pokemon.image}
                         isFavorite={pokemon.isFavorite}
-                        />
-                    })
-                }
-            </div>
-        );
-    };
+                    />
+                })
+            }
+        </div>
+    );
 };
 
 
-export const mapStateToProps = (state) => {
-    return {
-        pokemons: state.pokemons,
-    }
-};
 
-export const mapDispatchToProps = (dispatch) => {
-    return {
-        getPokemons: (page) => dispatch(getPokemons(page))
-    }
-}
-    
-export default connect(mapStateToProps, mapDispatchToProps)(Pokemons);
+
+

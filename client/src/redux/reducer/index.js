@@ -5,7 +5,7 @@ import { GET_POKEMON, GET_POKEMONS, CREATE_POKEMON,
 
 const initialState = {
     pokemons: [],
-    page: 1,
+    totalPages: 0,
     pokemon: {},
     types: [],
     type: {},
@@ -18,7 +18,8 @@ const rootReducer = (state = initialState, {type, payload}) => {
         case GET_POKEMONS:
             return {
                 ...state,
-                pokemons: payload
+                pokemons: payload.results,
+                totalPages: payload.totalPages
             };
         case GET_POKEMON:
             return {
@@ -40,21 +41,16 @@ const rootReducer = (state = initialState, {type, payload}) => {
                 ...state,
                 pokemons: payload
             };
-        case CREATE_TYPE:
-            return {
-                ...state,
-                type: payload
-            };
         case SEARCH_POKEMON:
             return {
                 ...state,
                 searchResults: state.pokemons.filter(pokemon => pokemon.name.toLowerCase().includes(payload.toLowerCase()))
             };
-        case CHANGE_PAGE:
+        /* case CHANGE_PAGE:
             return {
                 ...state,
                 page: payload
-            };
+            }; */
         default: return state;
     }
 };

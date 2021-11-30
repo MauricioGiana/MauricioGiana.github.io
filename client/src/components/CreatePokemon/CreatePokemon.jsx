@@ -2,16 +2,8 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTypes, createPokemon } from "../../redux/actions";
 
-const CreatePokemon = () => {
+export default function CreatePokemon() {
     const [input, setInput] = useState({
-        name: '',
-        Image: '',
-        hp: null,
-        attack: null,
-        defense: null,
-        speed: null,
-        height: null,
-        weight: null,
         types: [],
     });
 
@@ -34,7 +26,7 @@ const CreatePokemon = () => {
 
     const typesApi = useSelector(state => state.types);
 
-    function handleChange(event) {
+    const handleChange = (event) => {
         event.preventDefault();
         const { name, value } = event.target;
         setInput({
@@ -47,15 +39,14 @@ const CreatePokemon = () => {
         }))
     }
 
-    function addOrQuitType(event) {
+    const addOrQuitType = (event) => {
         event.preventDefault();
         const { value } = event.target;
-        console.log("value", value)
-        const indexType = input.types.findIndex(t => t.name === value);
-        if (indexType !== -1) {
+        const type = input.types.find(t => t.name === value);
+        if (type) {
             setInput({
                 ...input,
-                types: input.types.splice(indexType, 1)
+                types: input.types.filter(t => t.name !== value)
             });
         } else {
             const addType = typesApi.find(t => t.name === value);
@@ -64,18 +55,18 @@ const CreatePokemon = () => {
                 types: [...input.types, addType]
             });
         }
-        console.log("input", input.types)
     }
 
 
 
 
 
-    function handleSubmit(event) {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         console.log("entre a handlesubmit")
-        dispatch(createPokemon(input));
+        await dispatch(createPokemon(input));
         console.log("Pokemon created");
+        console.log("input", input);
     }
 
     if (loading) {
@@ -84,7 +75,7 @@ const CreatePokemon = () => {
 
     return (
         <div>
-            <form method="post" onChange={handleChange}>
+            <form>
                 <div>
                     <label>Pokemon name:</label>
                     <input
@@ -92,6 +83,7 @@ const CreatePokemon = () => {
                         type="text"
                         name="name"
                         value={input.name}
+                        onChange={handleChange}
                     />
                     {errors.name && (
                         <p className="danger">{errors.name}</p>
@@ -114,15 +106,15 @@ const CreatePokemon = () => {
                                     type="number"
                                     name={stat}
                                     value={input[stat]}
+                                    onChange={handleChange}
                                 />
                             </div>
                         ))
                     }
                 </div>
-            </form>
-            <form onClick={addOrQuitType}>
+                <div>
                 <label>Types: </label>
-                <select name="selectTypes" multiple>
+                <select name="selectTypes" onClick={addOrQuitType} multiple>
                     {
                         typesApi.map(type => (
                             <option key={type.id} value={type.name} label={type.name} />
@@ -132,17 +124,17 @@ const CreatePokemon = () => {
                 {
                     input.types.length > 0 && input.types.map((type) => (
                         <div key={type.id}>
-                            <input type="button" value={type.name} />
+                            <input type="button" value={type.name} onClick={addOrQuitType}/>
                         </div>
                     ))}
-
+                </div>
+            <input type="submit" onSubmit={handleSubmit} disabled={Object.keys(errors).length} />
             </form>
-            <input type="button" onSubmit={handleSubmit} disabled={Object.keys(errors).length} value="Submit" />
         </div>
     );
 };
 
-export default CreatePokemon;
+
 
 export function validate(input) {
     let errors = {};

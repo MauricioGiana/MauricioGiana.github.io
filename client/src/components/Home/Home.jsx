@@ -1,69 +1,50 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate, useLocation } from 'react-router';
-import { getPokemons, changePage } from '../../redux/actions';
+import { getPokemons, getTypes } from '../../redux/actions';
 import Pokemons from '../Pokemons/Pokemons';
 import SearchResults from '../SearchResults/SearchResults';
+import Filters from '../Filters/Filters';
+import Pagination from '../Pagination/Pagination';
 
 export default function Home() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const {search} = useLocation();
-    console.log("search:", search);
-    let query, value;
-    if (search) {
-        query = search.slice(1).split('=')[0];
-        const parseValue = Number(search.slice(1).split('=')[1])
-        value = query === "page" ? parseValue : search.slice(1).split('=')[1];
-    }
+    let endpoint = useLocation().search;
+    endpoint = endpoint.length > 0 ? endpoint : false;
     const [loading, setLoading] = useState(true);
+    const totalRecords = useSelector(state => state.totalPages);
 
     const firstPage = (event) => {
-        event.preventDefault();
         navigate("/pokemons");
     }
 
     const nextPage = (event) => {
-        event.preventDefault();
-        if (query === "page") navigate(`/pokemons?page=${value + 1}`);
-        if (!query) navigate(`/pokemons?page=2`);
-    }
-
-    const endpoint = typeof value === 'number' ? `${query}=${value}` : "page=1";
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                await dispatch(getPokemons(endpoint));
-                setLoading(false);
-            }
-            catch (error) {
-                console.log(error);
-            }
+        if (endpoint.includes("page")) {
+            let page = parseInt(endpoint.split("=")[1]);
+            let newEndpoint = endpoint.split("page=")[0] + "page=" + (page + 1);
+            let cutPoint = endpoint.indexOf("&");
+            if (cutPoint > 0) newEndpoint += endpoint.slice(cutPoint);
+            navigate(`/pokemons${newEndpoint}`);
         }
-        fetchData();
-    }, [endpoint, dispatch]);
-
-    const pokemons = useSelector(state => state.pokemons.pokemons);
-
-    if (query === "search" && value.length) {
-        return (
-            <div>
-                <h2>Search results</h2>
-                <SearchResults name={value}/>
-            </div>
-        )
+        else if (!endpoint) navigate(`/pokemons?page=2`);
     }
+
+    
 
     return (
         <div>
             <h1>Henry Pokemons PI</h1>
             <h3>Pokemons</h3>
-            {
-                loading ? <h1>Loading...</h1> : <Pokemons />
-            }
+            <Filters />
+            <Pokemons/>
             <input type="button" value="Next Page" onClick={nextPage} />
             <input type="button" value="First Page" onClick={firstPage} />
+            {
+                [1, 2, 3].map(page => {
+                    return <input type="button" value={page} onClick={() => navigate(`/pokemons?page=${page}`)} />
+                })
+            }
         </div>
     );
 };

@@ -25,8 +25,8 @@ const fetchPokemon = async (endpoint) => {
         const { data } = await axios("http://localhost:3001/pokemons")
         return data;
     }
-    if (endpoint.split("=").length === 2) {
-        const { data } = await axios(`http://localhost:3001/pokemons?${endpoint}`)
+    if (endpoint.split("=").length > 1) {
+        const { data } = await axios(`http://localhost:3001/pokemons${endpoint}`)
         return data;
     }
     const { data } = await axios(`http://localhost:3001/pokemons/${endpoint}`)
@@ -59,7 +59,7 @@ export const getTypes = () => {
         const { data } = await axios("http://localhost:3001/types");
         dispatch({
             type: GET_TYPES,
-            payload: data
+            payload: data.sort((a, b) => a.id - b.id)
         })
     }
 }
@@ -74,20 +74,11 @@ export const createPokemon = (pokemon) => {
     }
 }
 
-export const createType = (type) => {
-    return async dispatch => {
-        const { data } = await axios.post("http://localhost:3001/types", type);
-        dispatch({
-            type: CREATE_TYPE,
-            payload: data
-        })
-    }
-}
 
 export const getPokemonsByType = (type) => {
     return async dispatch => {
-        const { data } = await axios("http://localhost:3001/pokemons");
-        const pokemonsFiltered = data.filter(pokemon => pokemon.types.some(t => t.name === type));
+        const { data } = await axios("http://localhost:3001/pokemons?getallpokemons=true");
+        const pokemonsFiltered = data.results.filter(pokemon => pokemon.types.some(t => t.name === type));
         dispatch({
             type: GET_POKEMONS_BY_TYPE,
             payload: pokemonsFiltered
@@ -109,12 +100,6 @@ export const searchPokemon = (name) => dispatch => {
     })
 }
 
-export const changePage = (page) => dispatch => {
-    dispatch({
-        type: CHANGE_PAGE,
-        payload: page
-    })
-}
 
 
 
