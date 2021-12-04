@@ -3,13 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { getTypes } from "../../redux/actions";
 import { createPokemon } from '../../Controllers';
+import styles from './CreatePokemon.module.css';
 
 export default function CreatePokemon() {
     const [input, setInput] = useState({
         types: [],
     });
 
-    const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -35,26 +35,21 @@ export default function CreatePokemon() {
             ...input,
             [name]: value,
         });
-        setErrors(validate({
-            ...input,
-            [name]: value,
-        }))
     }
 
     const addOrQuitType = (event) => {
         event.preventDefault();
         const { value } = event.target;
-        const type = input.types.find(t => t.name === value);
+        const type = input.types.find(t => t === value);
         if (type) {
             setInput({
                 ...input,
-                types: input.types.filter(t => t.name !== value)
+                types: input.types.filter(t => t !== value)
             });
         } else {
-            const addType = typesApi.find(t => t.name === value);
             setInput({
                 ...input,
-                types: [...input.types, addType]
+                types: [...input.types, value]
             });
         }
     }
@@ -68,8 +63,8 @@ export default function CreatePokemon() {
             try {
                 event.preventDefault();
                 navigate("/pokemons/mypokemons");
-                const response = await dispatch(createPokemon(input));
-                console.log(response);
+                /* const response = await */ dispatch(createPokemon(input));
+                /* console.log(response); */
             } catch (error) {
                 console.log(error);
             }
@@ -82,73 +77,91 @@ export default function CreatePokemon() {
     }
 
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Pokemon name:</label>
-                    <input
-                        className={errors.name && "danger"}
-                        type="text"
-                        name="name"
-                        value={input.name}
-                        onChange={handleChange}
-                    />
-                    {errors.name && (
-                        <p className="danger">{errors.name}</p>
-                    )}
-                </div>
-                <div>
-                    <label>Image:</label>
-                    <input
-                        type="url"
-                        name="image"
-                        value={input.image}
-                        onChange={handleChange}
-                    />
-                </div>
-                <div>
-                    {
-                        ['hp', 'attack', 'defense', 'speed', 'height', 'weight'].map(stat => (
-                            <div key={stat}>
-                                <label>{stat[0].toUpperCase() + stat.slice(1)}: </label>
+        <div className={styles.create}>
+            <h1>Create a new Pokemon</h1>
+            <div className={styles.container}>
+                <form className={styles.form} method="post" onSubmit={handleSubmit}>
+                    <div className={styles.formbody}>
+                        <div className={styles.group}>
+                            <div className={styles.item}>
+                                <label>Name: </label>
                                 <input
-                                    type="number"
-                                    name={stat}
-                                    value={input[stat]}
+                                    className={styles.input}
+                                    type="text"
+                                    name="name"
+                                    value={input.name}
+                                    onChange={handleChange}
+                                    required
+                                    autoComplete="off"
+                                />
+                            </div>
+                            <div className={styles.item}>
+                                <label>Image: </label>
+                                <input
+                                    className={styles.input}
+                                    type="url"
+                                    name="image"
+                                    value={input.image}
                                     onChange={handleChange}
                                 />
                             </div>
-                        ))
-                    }
-                </div>
-                <div>
-                <label>Types: </label>
-                <select name="selectTypes" onClick={addOrQuitType} multiple>
-                    {
-                        typesApi.map(type => (
-                            <option key={type.id} value={type.name} label={type.name} />
-                        ))
-                    }
-                </select>
-                {
-                    input.types.length > 0 && input.types.map((type) => (
-                        <div key={type.id}>
-                            <input type="button" value={type.name} onClick={addOrQuitType}/>
                         </div>
-                    ))}
-                </div>
-            <input type="submit" disabled={Object.keys(errors).length} />
-            </form>
+                        <div className={styles.group}>
+                            {
+                                ['hp', 'attack', 'defense', 'speed', 'height', 'weight'].map(stat => (
+                                    <div className={styles.item} key={stat}>
+                                        <label>{stat[0].toUpperCase() + stat.slice(1)}: </label>
+                                        <input
+                                            className={styles.input}
+                                            type="number"
+                                            name={stat}
+                                            value={input[stat]}
+                                            onChange={handleChange}
+                                        />
+                                    </div>
+                                ))
+                            }
+                        </div>
+                        <div className={styles.group}>
+                            <div className={styles.types}>
+                                <label>Types: </label>
+                                <div className={styles.typeslist}>
+                                    <select name="selectTypes" onClick={addOrQuitType} multiple size="10">
+                                        {
+                                            typesApi.map(type => (
+                                                <option key={type.id} value={type.name} label={type.name} />
+                                            ))
+                                        }
+                                    </select>
+                                    <div className={styles.selected}>
+                                        {
+                                            input.types.length > 0 && input.types.map((type) => (
+                                                <div key={type}>
+                                                    <input className={styles.input} type="button" value={type} onClick={addOrQuitType} />
+                                                </div>
+                                            ))}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className={styles.submit}>
+                        <div className={styles.divsubmit}>
+                            <input type="submit" value="Create!!" />
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
     );
 };
 
 
 
-export function validate(input) {
+/* export function validate(input) {
     let errors = {};
     if (!input.name) {
         errors.name = 'Name is required';
     }
     return errors;
-};
+}; */

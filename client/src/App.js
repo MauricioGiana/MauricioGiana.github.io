@@ -6,7 +6,6 @@ import PokemonDetalis from './components/PokemonDetails/PokemonDetails';
 import CreatePokemon from './components/CreatePokemon/CreatePokemon';
 import NavBar from './components/NavBar/NavBar';
 import Favorites from './components/Favorites/Favorites';
-import SearchResults from './components/SearchResults/SearchResults';
 import MyPokemons from './components/MyPokemons/MyPokemons';
 import EditPokemon from './components/EditPokemon/EditPokemon';
 

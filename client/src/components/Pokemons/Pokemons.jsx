@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams, useNavigate, useLocation } from 'react-router';
+import { useLocation } from 'react-router';
 import PokemonCard from '../PokemonCard/PokemonCard';
 import { getPokemons } from '../../redux/actions';
+import styles from './Pokemons.module.css';
 
-export default function Pokemons({ mypokemons }) {
-    const navigate = useNavigate();
+export default function Pokemons({ sepecificPokemons }) {
     const dispatch = useDispatch();
     let endpoint = useLocation().search;
     endpoint = endpoint.length ? endpoint : false;
@@ -28,13 +28,13 @@ export default function Pokemons({ mypokemons }) {
 
     let pokemons = useSelector(state => state.pokemons);
 
-    if (mypokemons) pokemons = mypokemons;
+    if (sepecificPokemons) pokemons = sepecificPokemons;
 
-    if (loading) return <h2>Loading...</h2>
+    if (loading) return <h1>Loading...</h1>
     if (!pokemons.length) return <h2>No pokemons found</h2>
 
     return (
-        <div>
+        <div className={styles.pokemon}>
             {
                 pokemons?.map((pokemon) => {
                     return <PokemonCard

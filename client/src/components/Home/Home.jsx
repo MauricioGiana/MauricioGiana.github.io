@@ -1,46 +1,52 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useParams, useNavigate, useLocation } from 'react-router';
+import { useDispatch } from 'react-redux';
+import { useLocation } from 'react-router';
 import { getPokemons, getTypes } from '../../redux/actions';
+import Loading from '../Loading/Loading';
 import Pokemons from '../Pokemons/Pokemons';
 import SearchResults from '../SearchResults/SearchResults';
 import Filters from '../Filters/Filters';
 import Pagination from '../Pagination/Pagination';
+import styles from './Home.module.css';
 
 export default function Home() {
-    const navigate = useNavigate();
     const dispatch = useDispatch();
     let endpoint = useLocation().search;
     endpoint = endpoint.length ? endpoint : false;
     const [loading, setLoading] = useState(true);
-    const totalRecords = useSelector(state => state.totalPages);
 
-    const firstPage = (event) => {
-        navigate("/pokemons");
-    }
-
-    const nextPage = (event) => {
-        if (endpoint.includes("page")) {
-            let page = parseInt(endpoint.split("=")[1]);
-            let newEndpoint = endpoint.split("page=")[0] + "page=" + (page + 1);
-            let cutPoint = endpoint.indexOf("&");
-            if (cutPoint > 0) newEndpoint += endpoint.slice(cutPoint);
-            navigate(`/pokemons${newEndpoint}`);
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                await dispatch(getPokemons());
+                await dispatch(getTypes());
+                setLoading(false);
+            } catch (error) {
+                console.log(error);
+            }
         }
-        else if (!endpoint) navigate(`/pokemons?page=2`);
-    }
+        fetchData();
+    }, [dispatch]);
 
+    if (loading) {
+        return <Loading />
+    }
     if (endpoint && endpoint.includes("search")) {
-        return <SearchResults/>
+        return <SearchResults />
     }
 
     return (
-        <div>
-            <h1>Henry Pokemons PI</h1>
-            <h3>Pokemons</h3>
-            <Filters />
-            <Pokemons/>
-            <Pagination/>
+        <div className={styles.home}>
+            <div className={styles.content}>
+                <div className={styles.filters}>
+                <Filters />
+                    </div>
+                <div className={styles.pokemons}>
+            <p className={styles.title}>Pokemons</p>
+                    <Pokemons />
+                    <Pagination />
+                </div>
+            </div>
         </div>
     );
 };

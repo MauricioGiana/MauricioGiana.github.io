@@ -2,14 +2,13 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {useParams, useNavigate} from 'react-router-dom';
-import { getTypes, getPokemon } from "../../redux/actions";
+import { getTypes } from "../../redux/actions";
 import { editPokemon } from '../../Controllers';
 
 export default function CreatePokemon() {
     const {idPokemon} = useParams();
     const [input, setInput] = useState({});
 
-    const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
@@ -27,7 +26,7 @@ export default function CreatePokemon() {
             }
         }
         fetchData();
-    }, [dispatch]);
+    }, [dispatch, idPokemon]);
 
     const typesApi = useSelector(state => state.types);
 
@@ -38,26 +37,21 @@ export default function CreatePokemon() {
             ...input,
             [name]: value,
         });
-        setErrors(validate({
-            ...input,
-            [name]: value,
-        }))
     }
 
     const addOrQuitType = (event) => {
         event.preventDefault();
         const { value } = event.target;
-        const type = input.types.find(t => t.name === value);
+        const type = input.types.find(t => t === value);
         if (type) {
             setInput({
                 ...input,
-                types: input.types.filter(t => t.name !== value)
+                types: input.types.filter(t => t !== value)
             });
         } else {
-            const addType = typesApi.find(t => t.name === value);
             setInput({
                 ...input,
-                types: [...input.types, addType]
+                types: [...input.types, value]
             });
         }
     }
@@ -68,7 +62,7 @@ export default function CreatePokemon() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const data = await editPokemon(idPokemon, input);
+        await editPokemon(idPokemon, input);
         navigate(-1)
     }
 
@@ -134,11 +128,3 @@ export default function CreatePokemon() {
 };
 
 
-
-export function validate(input) {
-    let errors = {};
-    if (!input.name) {
-        errors.name = 'Name is required';
-    }
-    return errors;
-};

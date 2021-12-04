@@ -1,15 +1,11 @@
-import { useSelector, useDispatch } from 'react-redux';
-import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router';
-import { searchPokemon } from '../../redux/actions';
-import SearchResults from '../SearchResults/SearchResults';
-
+import { FcSearch } from 'react-icons/fc';
+import styles from './SearchBar.module.css';
 
 export default function SearchBar() {
     const navigate = useNavigate();
     const { search } = useLocation();
     console.log(search);
-    const dispatch = useDispatch();
 
     const handleChange = (event) => {
         const { value } = event.target;
@@ -22,10 +18,12 @@ export default function SearchBar() {
     }
 
     return (
-        <div>
+        <div className={styles.bar}>
             <form onSubmit={handleSubmit}>
-                <input type="search" onChange={handleChange} />
-                <input type="submit" value="Search" />
+                <div className={styles.bar}>
+                    <input className={styles.searchbar} type="search" onChange={handleChange} placeholder="Pokemon name..." />
+                    <FcSearch className={styles.searchicon} />
+                </div>
             </form>
         </div>
     )

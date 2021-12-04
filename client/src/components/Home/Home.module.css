@@ -1,3 +1,19 @@
-.nav {
-    position: fixed;
+
+.title {
+    font-size: 70px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    border-bottom: 4px solid black;
 }
+
+.content {
+    display: flex;
+    align-items: flex-start;
+    gap: 50px;
+}
+
+.filters {
+    margin-top: 150px;
+    margin-left: 50px;
+}
+

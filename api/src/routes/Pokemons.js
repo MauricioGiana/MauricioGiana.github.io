@@ -2,10 +2,7 @@ const { Router } = require('express');
 const router = Router();
 const axios = require('axios');
 const { Pokemon, Type } = require('../db');
-
-
-const totalPokemons = 898;
-const totalPages = 75;
+const fetchPokemons = require('../utils');
 
 let pokemonsApi;
 let response;
@@ -49,7 +46,7 @@ router.get("/", async (req, res, next) => {
             response = response.filter(pokemon => pokemon.name.toLowerCase().includes(search.toLowerCase()));
         } */
         const totalPages = Math.ceil(response.length / 6);
-        if(req.query.getallpokemons) {
+        if (req.query.getallpokemons) {
             return res.json({
                 totalPages,
                 results: response
@@ -90,11 +87,17 @@ router.post("/", async (req, res, next) => {
         const [pokemon, created] = await Pokemon.findOrCreate({
             where: { name },
             defaults: {
-                name, image, height, weight, hp, attack, defense, speed
+                name, image, height, weight, hp, attack, defense, speed, types
             }
         });
         if (created) {
-            /* await pokemon.addTypes(types); */
+            const typesDb = types.map(async type => {
+                const t = await Type.findOne({ where: { name: type } });
+            })
+            await pokemon.addTypes(typesDb);
+            await typesDb.forEach(async type => {
+                await type.addPokemon(pokemon.id);
+            })
             res.status(302).json(pokemon);
         } else {
             res.status(400).json({ message: "Pokemon already exists" });
@@ -140,7 +143,7 @@ router.delete("/delete/:idPokemon", async (req, res, next) => {
 
 router.delete("/clearcreatedpokemons", async (req, res, next) => {
     try {
-        const deletedPokemons = await Pokemon.destroy({where: {}});
+        const deletedPokemons = await Pokemon.destroy({ where: {} });
         return res.json({ message: "All pokemons deleted" });
     } catch (error) {
         next(error);
@@ -152,96 +155,7 @@ router.delete("/clearcreatedpokemons", async (req, res, next) => {
 module.exports = router;
 
 
-async function fetchPokemons(argument) {
-    let url;
-    if (!argument) {
-        url = "https://pokeapi.co/api/v2/pokemon";
-        const result = await fetchFunc(url);
-        await result.get(0, 15);
-        /* await result.get(15, 30);
-        await result.get(30, 40); */
-        return result.pokemons;
-    }
-    url = `https://pokeapi.co/api/v2/pokemon/${argument}`;
-    const result = await fetchFunc(url);
-    return result;
-}
 
-async function fetchFunc(url) {
-    if (url.split("/").pop() === "pokemon") {
-        const { data: res1 } = await axios(url);
-        const { data: res2 } = await axios(res1.next);
-        const results = [...res1.results, ...res2.results];
-        const pokemons = [];
-        return {
-            pokemons,
-            get: async (start, end) => {
-                await axios.all(results.slice(start, end).map(result => axios(result.url)))
-                    .then((response) => {
-                        response.forEach(result => {
-                            pokemons.push({
-                                name: result.data.name[0].toUpperCase() + result.data.name.slice(1),
-                                id: result.data.id,
-                                attack: result.data.stats[1].base_stat,
-                                image: result.data.sprites.other.home.front_default,
-                                types: result.data.types.map(type => ({
-                                    name: type.type.name,
-                                    id: type.type.url.split("/").slice(-2)[0]
-                                })),
-                            });
-                        });
-                    }
-                    )
-                return pokemons
-            }
-        }
-    }
-    try {
-        const { data } = await axios(url);
-        return {
-            name: data.name[0].toUpperCase() + data.name.slice(1),
-            id: data.id,
-            height: data.height,
-            weight: data.weight,
-            hp: data.stats[0].base_stat,
-            attack: data.stats[1].base_stat,
-            defense: data.stats[2].base_stat,
-            speed: data.stats[5].base_stat,
-            image: data.sprites.other?.home.front_default,
-            types: data.types.map(type => ({
-                name: type.type.name,
-                id: type.type.url.split("/").slice(-2)[0]
-            })),
-        }
-    }   catch (error) {
-        return null;
-    }
-}
-
-const axiosPokemons = async () => {
-    const {data: page1} = await axios("https://pokeapi.co/api/v2/pokemon");
-
-    const nextPage = page1.next;
-    
-    const pokemons1 = await axios.all(page1.results.map(async (result) => {
-        const {data} = await axios(result.url);
-        return {
-            name: data.name,
-            id: data.id,
-        }
-    }));
-
-    const {data: page2} = await axios(nextPage);
-
-    const pokemons2 = await axios.all(page2.results.map(async (result) => {
-        const {data} = await axios(result.url);
-        return {
-            name: data.name,
-            id: data.id,
-        }
-    }));
-    const totalPokemons = [...pokemons1, ...pokemons2];
-}
 
 
 

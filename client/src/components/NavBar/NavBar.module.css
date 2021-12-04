@@ -1,0 +1,87 @@
+.navbar {
+    display: flex;
+    align-items: center;
+    background-color: #7b2cbf;
+    height: 90px;
+    position: sticky;
+    top: 0;
+    width: 100%
+}
+
+.navcontainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 90em;
+}
+
+
+.header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-left: 30px;
+}
+
+.title {
+    display: flex;
+    flex-direction: column;
+    padding-left: 25px;
+    color: whitesmoke;
+}
+
+.maintitle {
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.sectitle {
+    display: flex;
+    justify-content: flex-start;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.landicon {
+    width: 60px;
+    height: 60px;
+}
+
+.items {
+    display: flex;
+    flex-direction: row;
+    background-color: #3c096c;
+    width: 30em;
+    height: 60px;
+    position: relative;
+    left: -40px;
+    bottom: -14px;
+}
+
+.item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    color: whitesmoke;
+    height: 100%;
+    font-size: 20px;
+    border-top: 1px solid whitesmoke;
+    border-left: 1px solid whitesmoke;
+    border-right: 1px solid whitesmoke;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.items :hover {
+    background-color: #40916c;
+}
+
+.items :active {
+    background-color: #0466c8;
+}
+
+
+
+
+

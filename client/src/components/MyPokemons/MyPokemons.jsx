@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router';
 import { useNavigate } from 'react-router-dom';
-import { getPokemon } from "../../redux/actions";
 import Pokemons from '../Pokemons/Pokemons';
 import { deleteAllPokemons } from '../../Controllers';
 import axios from 'axios';
+import styles from './MyPokemons.module.css';
+import Loading from '../Loading/Loading';
 
 export default function MyPokemons() {
-    const dispatch = useDispatch();
     const [mypokemons, setMyPokemons] = useState([]);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
@@ -21,11 +19,11 @@ export default function MyPokemons() {
             setLoading(false);
         };
         fetchData();
-    })
+    }, []);
 
     const handleDeleteAll = async (event) => {
         event.preventDefault();
-        const data = await deleteAllPokemons();
+        await deleteAllPokemons();
         setMyPokemons([]);
     }
 
@@ -34,13 +32,20 @@ export default function MyPokemons() {
         return <h2>You don´t have any Pokemon created</h2>
     }
 
+    if (loading) {
+        return <Loading />
+    }
 
     return (
-        <div>
+        <div className={styles.mypokemons}>
+            <div className={styles.header}>
+            <input className="back" type="button" value="<< Back" onClick={() => navigate(-1)} />
             <h1>My Pokemons</h1>
-            <input type="button" value="Back" onClick={() => navigate(-1)} />
-            <input type="button" value="Delete all pokemons" onClick={handleDeleteAll} />
-            <Pokemons mypokemons={mypokemons}/>
+            <input className="delete" type="button" value="Delete all pokemons" onClick={handleDeleteAll} />
+            </div>
+            <div className={styles.pokemons}>
+            <Pokemons sepecificPokemons={mypokemons}/>
+            </div>
         </div>
     )
 }

@@ -40,7 +40,7 @@ module.exports = (sequelize) => {
     },
     image: {
       type: DataTypes.STRING,
-      defaultValue: "https://c4.wallpaperflare.com/wallpaper/968/890/504/pokemon-poke-balls-wet-wallpaper-preview.jpg"
+      defaultValue: "https://cdn.pixabay.com/photo/2019/11/18/15/46/pokemon-4635112_960_720.png"
     },
     isCreated: {
       type: DataTypes.BOOLEAN,

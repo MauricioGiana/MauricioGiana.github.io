@@ -1,0 +1,93 @@
+@import url('https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&family=IM+Fell+English+SC&family=Varela+Round&display=swap');
+
+
+.pokemoncard {
+    display: flex;
+    flex-direction: column;
+    border-radius: 20px;
+    border: 8px solid;
+    border-color: #0d1516;
+    width: 300px;
+}
+
+
+.divHead {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 70px;
+    background-color: #38413f;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    color: white
+}
+
+.divTitle {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-family: var(--nameCard-font-family);
+    font-size: 30px;
+}
+
+.customIcon {
+    width: 30px;
+    height: 30px;
+    padding-left: 10px;
+}
+
+.favIcon {
+    width: 40px;
+    height: 40px;
+    padding-right: 10px;
+    cursor: pointer;
+}
+
+.favIcon:hover {
+    background-color: #0d1516;
+}
+
+.divImg {
+    height: 300px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    background: linear-gradient(to bottom, #5e60ce, white 50%)
+}
+
+.pokeimg {
+    height: 100%
+}
+
+.divTypes {
+    display: flex;
+    flex-direction: row;
+}
+
+.types {
+    display: flex;
+    align-items: center;
+    background-color: #b392ac;
+    font-size: 20px;
+    font-weight: bold;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-bottom-left-radius: 12px;
+    height: 30px;
+}
+
+.typesContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    font-size: 20px;
+    width: 100%;
+    background-color: #64dfdf;
+    border-bottom-right-radius: 12px;
+    height: 30px;
+}
+
+.name {
+    color: white;
+}

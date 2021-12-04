@@ -30,3 +30,33 @@ export const deleteAllPokemons = async () => {
     const { data } = await axios.delete(`http://localhost:3001/pokemons/clearcreatedpokemons`);
     return data
 }
+
+export const getIds = async () => {
+    const {data: ids} = await axios("http://localhost:3001/favorites");
+    console.log("ids",ids);
+    return ids;
+}
+
+export const getFavorites = async (ids) => {
+    const {data: pokemons} = await axios("http://localhost:3001/pokemons?getallpokemons=true");
+    const favorites = pokemons.results.filter(pokemon => ids.includes(pokemon.id));
+    console.log("favorites", favorites);
+    return favorites;
+}
+
+export const addFavorite = async (idPokemon) => {
+    const { data } = await axios.post(`http://localhost:3001/favorites/add/${idPokemon}`);
+    console.log("add", data);
+    return data;
+}
+
+export const quitFavorite = async (idPokemon) => {
+    const { data } = await axios.delete(`http://localhost:3001/favorites/quit/${idPokemon}`);
+    console.log("delete", data);
+    return data
+}
+
+export const deletaAllFavorites = async () => {
+    const { data } = await axios.delete(`http://localhost:3001/favorites/deleteall`);
+    return data
+}

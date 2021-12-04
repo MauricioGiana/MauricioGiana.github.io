@@ -1,6 +1,5 @@
 import { GET_POKEMON, GET_POKEMONS, CREATE_POKEMON, 
-    GET_TYPES, CREATE_TYPE, GET_POKEMONS_BY_TYPE, 
-    ADD_FAVORITE, SEARCH_POKEMON, CHANGE_PAGE } from "../actions";
+    GET_TYPES, GET_POKEMONS_BY_TYPE, SEARCH_POKEMON } from "../actions";
 
 
 const initialState = {

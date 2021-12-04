@@ -1,0 +1,72 @@
+.filterscontainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #3c096c;
+    padding: 15px;
+    border-radius: 20px;
+    border: 3px solid whitesmoke;
+}
+
+.title {
+    color: whitesmoke;
+    font-size: 35px;
+    height: 50px;
+    font-weight: bold;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: whitesmoke;
+    border-top: 1px solid whitesmoke;
+}
+
+.divreset {
+    height: 70px;
+    position: relative;
+    top: 25px;
+    
+}
+
+.divreset :hover {
+    cursor: pointer;
+    background-color: #f95738;
+}
+
+.divreset > input {
+    height: 35px;
+    background-color: #ffd60a;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 15px;
+    border: 2px solid black;
+}
+
+.item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60px;
+    width: 100%;
+    gap: 10px;
+    border-bottom: 1px solid whitesmoke;
+}
+
+.label {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.select {
+    height: 30px;
+    border-radius: 8px;
+}
+
+.select > option {
+    height: 30px;
+    font-size: 15px;
+}
+

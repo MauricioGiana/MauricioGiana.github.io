@@ -4,11 +4,8 @@ export const GET_POKEMONS = 'GET_POKEMONS';
 export const GET_POKEMON = "GET_POKEMON";
 export const CREATE_POKEMON = 'CREATE_POKEMON';
 export const GET_TYPES = 'GET_TYPES';
-export const CREATE_TYPE = 'CREATE_TYPE';
 export const GET_POKEMONS_BY_TYPE = 'GET_POKEMONS_BY_TYPE';
-export const ADD_FAVORITE = 'ADD_FAVORITE';
 export const SEARCH_POKEMON = 'SEARCH_POKEMON';
-export const CHANGE_PAGE = 'CHANGE_PAGE';
 export const EDIT_POKEMON = 'EDIT_POKEMON';
 export const DELETE_POKEMON = "DELETE_POKEMON";
 export const DELETE_ALL_POKEMONS = "DELETE_ALL_POKEMONS";
@@ -80,12 +77,7 @@ export const getPokemonsByType = (type) => {
     }
 }
 
-export const addFavorite = (id) => dispatch => {
-    dispatch({
-        type: ADD_FAVORITE,
-        payload: id
-    })
-}
+
 
 
 

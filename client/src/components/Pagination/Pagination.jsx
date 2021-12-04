@@ -1,10 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useParams, useNavigate, useLocation } from 'react-router';
-import { getPokemons, getTypes } from '../../redux/actions';
-import Pokemons from '../Pokemons/Pokemons';
-import SearchResults from '../SearchResults/SearchResults';
-import Filters from '../Filters/Filters';
+import { useSelector } from 'react-redux';
+import { useNavigate, useLocation } from 'react-router';
 
 
 export default function Pagination() {
@@ -34,7 +29,7 @@ export default function Pagination() {
       <input type="button" value="First Page" onClick={firstPage} />
       {
         pageNumbers.map(number => (
-          <input type="button" value={number} onClick={handleChangePage}/>
+          <input key={number} type="button" value={number} onClick={handleChangePage}/>
         ))
       }
     </div>

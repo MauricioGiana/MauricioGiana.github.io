@@ -1,18 +1,31 @@
-import { useNavigate } from 'react-router-dom';
 import SearchBar from '../SearchBar/SearchBar';
-import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
+import styles from './NavBar.module.css';
+import pokeBall from '../../images/pokeBall.png';
 
 export default function NavBar() {
-    const navigate = useNavigate();
-
-
     return (
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
-            <input type="button" value="Home" onClick={() => navigate("/pokemons")}/>
-            <input type="button" value="Create Pokemon" onClick={() => navigate("/pokemons/create")}/>
-            <input type="button" value="Favorites" onClick={() => navigate("/pokemons/favorites")}/>
-            <input type="button" value="My Pokemons" onClick={() => navigate("/pokemons/mypokemons")}/>
-            <SearchBar/>
+        <nav className={styles.navbar}>
+            <div className={styles.navcontainer}>
+                <Link to={"/"}>
+                    <div className={styles.header}>
+                        <img className={styles.landicon} src={pokeBall} alt="Landing" />
+                        <div className={styles.title}>
+                            <span className={styles.maintitle}>Henry Pokemons</span>
+                            <span className={styles.sectitle}>Individual Project</span>
+                        </div>
+                    </div>
+                </Link>
+                <div className={styles.items}>
+                    <Link className={styles.item} to="/pokemons"><span>Home</span></Link>
+                    <Link className={styles.item} to="/pokemons/favorites"><span>Favorites</span></Link>
+                    <Link className={styles.item} to="/pokemons/mypokemons"><span>My Pokemons</span></Link>
+                    <Link className={styles.item} to="/pokemons/create"><span>Create your Pokemon</span></Link>
+                </div>
+                <div className={styles.search}>
+                    <SearchBar />
+                </div>
+            </div>
         </nav>
     )
 }

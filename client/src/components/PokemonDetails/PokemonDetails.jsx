@@ -4,6 +4,8 @@ import { useParams } from 'react-router';
 import { useNavigate } from 'react-router-dom';
 import { getPokemon } from "../../redux/actions";
 import { deletePokemon } from '../../Controllers';
+import Loading from '../Loading/Loading';
+import styles from './PokemonDetails.module.css';
 
 
 const PokemonDetails = () => {
@@ -26,13 +28,12 @@ const PokemonDetails = () => {
     }, [id, dispatch, setLoading]);
 
     const pokemonDetails = useSelector(state => state.pokemon);
-    console.log("result:", pokemonDetails);
 
     const deleteFunction = (event) => {
         event.preventDefault();
         const deleteFunc = async () => {
             try {
-                const data = await deletePokemon(pokemonDetails.id);
+                await deletePokemon(pokemonDetails.id);
                 navigate(-1);
             } catch (error) {
                 console.log(error);
@@ -42,22 +43,24 @@ const PokemonDetails = () => {
     }
 
     if (loading) {
-        return <h1>Loading...</h1>
+        return <Loading />
     }
 
     return (
         <div>
+            <div className={styles.buttons}>
             <div>
-                <input type="button" value="Go Back" onClick={() => navigate(-1)} />
+                <input className="back" type="button" value="<< Back" onClick={() => navigate(-1)} />
             </div>
             {
                 pokemonDetails.isCreated && (
-                    <div>
-                        <input type="button" value="Edit pokemon" onClick={() => navigate(`/pokemons/edit/${pokemonDetails.id}`)} />
-                        <input type="button" value="Delete pokemon" onClick={deleteFunction}/>
+                    <div className={styles.custombtn}>
+                        <input className={styles.editbtn} type="button" value="Edit pokemon" onClick={() => navigate(`/pokemons/edit/${pokemonDetails.id}`)} />
+                        <input className="delete" type="button" value="Delete pokemon" onClick={deleteFunction}/>
                     </div>
                 )
             }
+            </div>
             <h2>{pokemonDetails.name}</h2>
             <img src={pokemonDetails.image} alt={pokemonDetails.name} />
             <p>Id: {pokemonDetails.id}</p>
