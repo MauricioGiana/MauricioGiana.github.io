@@ -91,8 +91,8 @@ router.post("/", async (req, res, next) => {
             }
         });
         if (created && types && types.length) {
-            const typesDb = await Type.findAll({ where: { name: types } });
-            pokemon.addTypes(typesDb);
+            const typesDb = await Type.findAll({ where: { name: types }});
+            pokemon.addTypes(typesDb.map(type => type.id));
             res.status(200).json(pokemon)
         } else {
             res.status(400).json({ message: "Pokemon already exists" });
