@@ -9,6 +9,7 @@ export const SEARCH_POKEMON = 'SEARCH_POKEMON';
 export const EDIT_POKEMON = 'EDIT_POKEMON';
 export const DELETE_POKEMON = "DELETE_POKEMON";
 export const DELETE_ALL_POKEMONS = "DELETE_ALL_POKEMONS";
+export const GET_FAVORITES = 'GET_FAVORITES';
 
 /* 
 query name
@@ -76,6 +77,20 @@ export const getPokemonsByType = (type) => {
         })
     }
 }
+
+export const getFavorites = () => {
+    return async dispatch => {
+        let {data: ids} = await axios("http://localhost:3001/favorites");
+        const { data: {results} } = await axios("http://localhost:3001/pokemons?getallpokemons=true");
+        ids = ids.map(id => id.idPokemon);
+        const favorites = results.filter(pokemon => ids.includes(pokemon.id.toString()));
+        dispatch({
+            type: GET_FAVORITES,
+            payload: favorites
+        })
+    }
+}
+
 
 
 

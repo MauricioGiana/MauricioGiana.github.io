@@ -1,5 +1,8 @@
-import { GET_POKEMON, GET_POKEMONS, CREATE_POKEMON, 
-    GET_TYPES, GET_POKEMONS_BY_TYPE, SEARCH_POKEMON } from "../actions";
+import {
+    GET_POKEMON, GET_POKEMONS, CREATE_POKEMON,
+    GET_TYPES, GET_POKEMONS_BY_TYPE, SEARCH_POKEMON,
+    GET_FAVORITES
+} from "../actions";
 
 
 const initialState = {
@@ -13,7 +16,7 @@ const initialState = {
     searchResults: []
 };
 
-const rootReducer = (state = initialState, {type, payload}) => {
+const rootReducer = (state = initialState, { type, payload }) => {
     switch (type) {
         case GET_POKEMONS:
             return {
@@ -46,11 +49,11 @@ const rootReducer = (state = initialState, {type, payload}) => {
                 ...state,
                 searchResults: payload
             };
-        /* case CHANGE_PAGE:
+        case GET_FAVORITES:
             return {
                 ...state,
-                page: payload
-            }; */
+                favorites: payload
+            };
         default: return state;
     }
 };

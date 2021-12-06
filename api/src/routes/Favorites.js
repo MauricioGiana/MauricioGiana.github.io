@@ -5,8 +5,8 @@ const { Favorite } = require("../db");
 
 router.get("/", async (req, res, next) => {
     try {
-        const favorites = Favorite.findAll();
-        res.json(favorites ? favorites : []);
+        const favorites = await Favorite.findAll();
+        res.json(favorites);
     } catch (error) {
         next(error);
     }
@@ -22,7 +22,7 @@ router.post("/add/:idPokemon", async (req, res, next) => {
             }
         });
         if (created) {
-            res.status(302).json({ msg: "Pokemon added to favorites" });
+            res.status(200).json({ msg: "Pokemon added to favorites" });
         } else {
             res.status(400).json({ msg: "Favorite already exists" });
         }

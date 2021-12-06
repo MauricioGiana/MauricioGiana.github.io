@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useLocation } from 'react-router';
-import { getPokemons, getTypes } from '../../redux/actions';
+import { getPokemons, getTypes, getFavorites } from '../../redux/actions';
 import Loading from '../Loading/Loading';
 import Pokemons from '../Pokemons/Pokemons';
 import SearchResults from '../SearchResults/SearchResults';
@@ -20,6 +20,7 @@ export default function Home() {
             try {
                 await dispatch(getPokemons());
                 await dispatch(getTypes());
+                await dispatch(getFavorites());
                 setLoading(false);
             } catch (error) {
                 console.log(error);

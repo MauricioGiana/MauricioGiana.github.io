@@ -1,35 +1,55 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { addFavorite, quitFavorite } from "../../Controllers"
+import { addFavorite, quitFavorite } from "../../Controllers";
+import { getFavorites } from '../../redux/actions';
 import styles from './PokemonCard.module.css';
 import { BsPersonCheckFill } from "react-icons/bs";
 import { AiOutlineStar, AiTwotoneStar } from "react-icons/ai";
 
 export class PokemonCard extends Component {
-    isFavorite = false;
+    constructor() {
+        super();
+        this.state = {
+            isFavorite: false
+        }
+    }
+
+    componentDidMount() {
+        const fetchFavs = async () => {
+            await getFavorites();
+            console.log(this.props.favorites);
+            this.setState({
+                isFavorite: this.props.favorites.some(fav => fav.id === this.props.id)
+            })
+            console.log("isFav", this.props.favorites.some(fav => fav.id === this.props.id));
+        }
+        fetchFavs();
+    }
+
 
     handleAddFavorite = (event) => {
         event.preventDefault();
         const add = async () => {
+            this.setState({ isFavorite: true });
             try {
                 console.log("entre a add fav")
-                await addFavorite(this.props.id);
-                this.isFavorite = !this.isFavorite;
+                const resp = await addFavorite(this.props.id);
+                console.log("resp add", resp)
             } catch (error) {
                 console.log(error)
             }
         }
         add();
+        this.setState({ isFavorite: true });
     }
 
     handleQuitFavorite = (event) => {
         event.preventDefault();
         const quit = async () => {
+            this.setState({ isFavorite: false });
             try {
-                console.log("entre a delete fav")
                 await quitFavorite(this.props.id);
-                this.isFavorite = !this.isFavorite;
             } catch (error) {
                 console.log(error)
             }
@@ -54,9 +74,9 @@ export class PokemonCard extends Component {
                     </div>
                     <div>
                         {
-                            !this.isFavorite ?
+                            !this.state.isFavorite ?
                                 <AiOutlineStar className={styles.favIcon} onClick={this.handleAddFavorite} /> :
-                                <AiTwotoneStar className={styles.favIcon} onClick={this.handleQuitFavorite} />
+                                <AiTwotoneStar className={styles.favIconOn} onClick={this.handleQuitFavorite} />
                         }
                     </div>
                 </div>
@@ -80,8 +100,12 @@ export class PokemonCard extends Component {
     };
 };
 
+const mapStateToProps = state => {
+    return {
+        favorites: state.favorites
+    }
+}
 
-
-export default connect(null, { addFavorite, quitFavorite })(PokemonCard);
+export default connect(mapStateToProps, { getFavorites, addFavorite, quitFavorite })(PokemonCard);
 
 

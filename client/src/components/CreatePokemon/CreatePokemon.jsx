@@ -60,14 +60,10 @@ export default function CreatePokemon() {
 
     const handleSubmit = (event) => {
         const create = async () => {
-            try {
-                event.preventDefault();
-                navigate("/pokemons/mypokemons");
-                /* const response = await */ dispatch(createPokemon(input));
-                /* console.log(response); */
-            } catch (error) {
-                console.log(error);
-            }
+            event.preventDefault();
+            navigate("/pokemons/mypokemons");
+            const response = await createPokemon(input);
+            console.log(response);
         }
         create();
     }

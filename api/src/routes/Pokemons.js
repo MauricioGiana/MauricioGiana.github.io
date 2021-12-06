@@ -87,18 +87,13 @@ router.post("/", async (req, res, next) => {
         const [pokemon, created] = await Pokemon.findOrCreate({
             where: { name },
             defaults: {
-                name, image, height, weight, hp, attack, defense, speed, types
+                name, image, height, weight, hp, attack, defense, speed
             }
         });
-        if (created) {
-            const typesDb = types.map(async type => {
-                const t = await Type.findOne({ where: { name: type } });
-            })
-            await pokemon.addTypes(typesDb);
-            await typesDb.forEach(async type => {
-                await type.addPokemon(pokemon.id);
-            })
-            res.status(302).json(pokemon);
+        if (created && types && types.length) {
+            const typesDb = await Type.findAll({ where: { name: types } });
+            pokemon.addTypes(typesDb);
+            res.status(200).json(pokemon)
         } else {
             res.status(400).json({ message: "Pokemon already exists" });
         }

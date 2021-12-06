@@ -6,7 +6,7 @@ export const createPokemon = async (pokemon) => {
         const { data } = await axios.post("http://localhost:3001/pokemons", pokemon);
         return data
     } catch (error) {
-        console.log(error);
+        console.log(error)
     }
 }
 
@@ -31,16 +31,13 @@ export const deleteAllPokemons = async () => {
     return data
 }
 
-export const getIds = async () => {
-    const {data: ids} = await axios("http://localhost:3001/favorites");
-    console.log("ids",ids);
-    return ids;
-}
 
-export const getFavorites = async (ids) => {
-    const {data: pokemons} = await axios("http://localhost:3001/pokemons?getallpokemons=true");
-    const favorites = pokemons.results.filter(pokemon => ids.includes(pokemon.id));
-    console.log("favorites", favorites);
+
+export const getFavorites = async () => {
+    let { data: ids } = await axios("http://localhost:3001/favorites");
+    const { data: { results } } = await axios("http://localhost:3001/pokemons?getallpokemons=true");
+    ids = ids.map(id => id.idPokemon);
+    const favorites = results.filter(pokemon => ids.includes(pokemon.id.toString()));
     return favorites;
 }
 

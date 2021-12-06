@@ -17,17 +17,6 @@ code {
     monospace;
 }
 
-.loadingImg {
-  width: 150px;
-  margin-top: 35px;
-}
-
-.loading {
-  font-size: 25px;
-  position: relative;
-  bottom: 35px;
-}
-
 a {
   text-decoration: none;
   color: black

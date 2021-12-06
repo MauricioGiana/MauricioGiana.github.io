@@ -47,34 +47,39 @@ const PokemonDetails = () => {
     }
 
     return (
-        <div>
-            <div className={styles.buttons}>
-            <div>
-                <input className="back" type="button" value="<< Back" onClick={() => navigate(-1)} />
-            </div>
-            {
-                pokemonDetails.isCreated && (
-                    <div className={styles.custombtn}>
-                        <input className={styles.editbtn} type="button" value="Edit pokemon" onClick={() => navigate(`/pokemons/edit/${pokemonDetails.id}`)} />
-                        <input className="delete" type="button" value="Delete pokemon" onClick={deleteFunction}/>
+        <div className={styles.pokemondetails}>
+            <div className={styles.container}>
+                <div className={styles.header}>
+                    <div>
+                        <input className="back" type="button" value="<< Back" onClick={() => navigate(-1)} />
                     </div>
-                )
-            }
+                    <h2>{pokemonDetails.name}</h2>
+                </div>
+                <div className={styles.details}>
+                    <img src={pokemonDetails.image} alt={pokemonDetails.name} />
+                    <div className={styles.info}>
+                        <h4>Stats</h4>
+                        <p>Hp: {pokemonDetails.hp}</p>
+                        <p>Attack: {pokemonDetails.attack}</p>
+                        <p>Defense: {pokemonDetails.defense}</p>
+                        <p>Speed: {pokemonDetails.speed}</p>
+                        <p>Height: {pokemonDetails.height}</p>
+                        <p>Weight: {pokemonDetails.weight}</p>
+                    </div>
+                    <h4>Types:</h4>
+                    {pokemonDetails.types?.map(type => (
+                        <p key={type.id}>{type.name}</p>
+                    ))}
+                </div>
+                {
+                        pokemonDetails.isCreated && (
+                            <div className={styles.custombtn}>
+                                <input className={styles.editbtn} type="button" value="Edit pokemon" onClick={() => navigate(`/pokemons/edit/${pokemonDetails.id}`)} />
+                                <input className="delete" type="button" value="Delete pokemon" onClick={deleteFunction} />
+                            </div>
+                        )
+                    }
             </div>
-            <h2>{pokemonDetails.name}</h2>
-            <img src={pokemonDetails.image} alt={pokemonDetails.name} />
-            <p>Id: {pokemonDetails.id}</p>
-            <h4>Stats</h4>
-            <p>Hp: {pokemonDetails.hp}</p>
-            <p>Attack: {pokemonDetails.attack}</p>
-            <p>Defense: {pokemonDetails.defense}</p>
-            <p>Speed: {pokemonDetails.speed}</p>
-            <p>Height: {pokemonDetails.height}</p>
-            <p>Weight: {pokemonDetails.weight}</p>
-            <h4>Types:</h4>
-            {pokemonDetails.types?.map(type => (
-                <p key={type.id}>{type.name}</p>
-            ))}
         </div>
     )
 }

@@ -24,9 +24,10 @@ export default function Pokemons({ sepecificPokemons }) {
         fetchData();
     }, [endpoint, dispatch]);
 
-    console.log("endpoint", endpoint)
 
+    console.log("spec", sepecificPokemons);
     let pokemons = useSelector(state => state.pokemons);
+    console.log("pokemons", pokemons);
 
     if (sepecificPokemons) pokemons = sepecificPokemons;
 
