@@ -74,7 +74,10 @@ export default function CreatePokemon() {
 
     return (
         <div className={styles.create}>
-            <h1>Create a new Pokemon</h1>
+            <div className={styles.header}>
+                <input className="back" type="button" value="<< Back" onClick={() => navigate(-1)} />
+                <h1>Create a new Pokemon</h1>
+            </div>
             <div className={styles.container}>
                 <form className={styles.form} onSubmit={handleSubmit}>
                     <div className={styles.formbody}>

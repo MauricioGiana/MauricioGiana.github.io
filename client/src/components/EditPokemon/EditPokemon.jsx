@@ -93,9 +93,10 @@ export default function CreatePokemon() {
                                 onChange={handleChange}
                             />
                         </div>
-                        <div classname={styles.item}>
+                        <div className={styles.item}>
                             <label>Image: </label>
                             <input
+                                className={styles.url}
                                 type="url"
                                 name="image"
                                 value={input.image}
@@ -104,41 +105,47 @@ export default function CreatePokemon() {
                         </div>
                     </div>
                     <div className={styles.group}>
-                            {
-                                ['hp', 'attack', 'defense', 'speed', 'height', 'weight'].map(stat => (
-                                    <div className={styles.item} key={stat}>
-                                        <label>{stat[0].toUpperCase() + stat.slice(1)}: </label>
-                                        <input
-                                            className={styles.stat}
-                                            type="number"
-                                            name={stat}
-                                            value={input && input[stat]}
-                                            onChange={handleChange}
-                                        />
-                                    </div>
-                                ))
-                            }
+                        {
+                            ['hp', 'attack', 'defense', 'speed', 'height', 'weight'].map(stat => (
+                                <div className={styles.item} key={stat}>
+                                    <label>{stat[0].toUpperCase() + stat.slice(1)}: </label>
+                                    <input
+                                        className={styles.stat}
+                                        type="number"
+                                        name={stat}
+                                        value={input && input[stat]}
+                                        onChange={handleChange}
+                                    />
+                                </div>
+                            ))
+                        }
                     </div>
                     <div className={styles.group}>
-                        <div>
+                        <div className={styles.types}>
                             <label>Types: </label>
-                            <select name="selectTypes" onClick={addOrQuitType} multiple>
-                                {
-                                    typesApi.map(type => (
-                                        <option key={type.id} value={type.name} label={type.name} />
-                                    ))
-                                }
-                            </select>
-                            {
-                                input.types?.length > 0 && input.types.map((type) => (
-                                    <div key={type}>
-                                        <input type="button" value={type} onClick={addOrQuitType} />
-                                    </div>
-                                ))}
+                            <div className={styles.typeslist}>
+                                <select name="selectTypes" onClick={addOrQuitType} multiple size="10">
+                                    {
+                                        typesApi.map(type => (
+                                            <option key={type.id} value={type.name} label={type.name} />
+                                        ))
+                                    }
+                                </select>
+                                <div className={styles.selected}>
+                                    {
+                                        input.types?.length > 0 && input.types.map((type) => (
+                                                <input key={type} type="button" value={type} onClick={addOrQuitType} />
+                                        ))}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <input type="submit" onSubmit={handleSubmit} value="Save changes" />
+                <div className={styles.submit}>
+                    <div className={styles.divsubmit}>
+                        <input type="submit" onSubmit={handleSubmit} value="Save changes" />
+                    </div>
+                </div>
             </form>
         </div>
     );

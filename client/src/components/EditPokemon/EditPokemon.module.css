@@ -19,11 +19,9 @@
     right: 150px;
 }
 
-
-
 .form {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     background-color: #10451d;
@@ -44,6 +42,7 @@ h1 {
 .formbody {
     display: flex;
     flex-direction: row;
+    align-items: flex-start;
 }
 
 .item {
@@ -57,13 +56,18 @@ h1 {
     font-weight: bold;
 }
 
-.item > input {
+.item input {
     font-size: 20px;
-    width: 120px;
+    border-radius: 5px;
+}
+
+.url {
+    font-size: 10px;
 }
 
 .stat {
     width: 100px;
+    border-radius: 5px;
 }
 
 .group {
@@ -78,7 +82,9 @@ h1 {
 .types {
     display: flex;
     flex-direction: column;
+    justify-content: flex-start;
     gap: 15px;
+    font-size: 20px;
 }
 
 .typeslist {
@@ -87,13 +93,17 @@ h1 {
     gap: 15px;
 }
 
+.typeslist select {
+    font-size: 15px;
+}
+
 .selected {
     display: flex;
     flex-wrap: wrap;
     width: 180px;
 }
 
-.input {
+.selected > input {
     height: 30px;
     font-size: 20;
     border-radius: 5px;
@@ -104,16 +114,17 @@ h1 {
     display: flex;
     justify-content: flex-end;
     height: 40px;
+    width: 100%;
     padding-top: 40px;
 }
 
 .divsubmit {
     height: 35px;
-    width: 200px;
-    position: relative;
-    right: 40px;
+    width: 230px;
     border-radius: 10px;
     border: 2px solid whitesmoke;
+    position: relative;
+    right: 50px;
 }
 
 .divsubmit > input {
@@ -121,7 +132,7 @@ h1 {
     width: 100%;
     font-size: 25px;
     border-radius: 10px;
-    background-color: #33521c;
+    background-color: #3b0086;
     color: whitesmoke;
     cursor: pointer;
 }
