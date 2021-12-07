@@ -31,7 +31,7 @@ export class PokemonCard extends Component {
         const add = async () => {
             this.setState({ isFavorite: true });
             try {
-                const resp = await addFavorite(this.props.id);
+                await addFavorite(this.props.id);
             } catch (error) {
                 console.log(error)
             }

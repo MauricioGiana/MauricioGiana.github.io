@@ -86,15 +86,16 @@ router.get("/:idPokemon", async (req, res, next) => {
 router.post("/", async (req, res, next) => {
     const params = {}
     for (let key in req.body) {
-        params[key] = req.body[key];
+        key !== "types" && (params[key] = req.body[key]);
     }
+    const types = req.body.types;
     try {
         const [pokemon, created] = await Pokemon.findOrCreate({
             where: { name: params.name },
             defaults: params
         });
-        if (created && params.types && params.types.length) {
-            const typesDb = await Type.findAll({ where: { name: params.types } });
+        if (created && types && types.length) {
+            const typesDb = await Type.findAll({ where: { name: types } });
             pokemon.addTypes(typesDb.map(type => type.id));
             return res.json(pokemon);
         }

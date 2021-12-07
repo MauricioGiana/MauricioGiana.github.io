@@ -23,19 +23,19 @@ describe('Pokemon routes', () => {
   });
 
   describe('POST /pokemons', function () {
-    it('responde con 302', function(){
+    it('responde con 200', function(){
       return agent.post('/pokemons')
         .send({
           name: "Giana",
-          types: ["Fire", "Poison", "Birra"],
+          types: ["grass", "poison", "flying"],
         })
-        .expect(302);
+        .expect(200);
     });
     it('crea un Pokemon en la base de datos', function(){
       return agent.post('/pokemons')
         .send({
           name: "Giana",
-          type: "Fuego",
+          types: "flying",
         })
         .then(() => {
           return Pokemon.findOne({

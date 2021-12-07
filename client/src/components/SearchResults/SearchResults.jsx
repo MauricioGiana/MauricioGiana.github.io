@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router";
-import PokemonCard from "../PokemonCard/PokemonCard";
 import { searchPokemon } from "../../Controllers";
 import Pokemons from "../Pokemons/Pokemons";
 

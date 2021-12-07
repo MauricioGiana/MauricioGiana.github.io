@@ -8,7 +8,7 @@ module.exports = fetchPokemons = async (argument) => {
     if (!argument) {
         url = "https://pokeapi.co/api/v2/pokemon";
         const result = await fetchFunc(url);
-        await result.get(0, 15);
+        await result.get(0, 5);
         /* await result.get(15, 30);
         await result.get(30, 40); */
         return result.pokemons;
