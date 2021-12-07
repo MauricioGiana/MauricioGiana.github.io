@@ -21,7 +21,7 @@ export default function SearchBar() {
         <div className={styles.bar}>
             <form onSubmit={handleSubmit}>
                 <div className={styles.bar}>
-                    <input className={styles.searchbar} type="search" onChange={handleChange} placeholder="Pokemon name..." />
+                    <input className={styles.searchbar} type="search" onChange={handleChange} placeholder="pokemon..." />
                     <FcSearch className={styles.searchicon} />
                 </div>
             </form>

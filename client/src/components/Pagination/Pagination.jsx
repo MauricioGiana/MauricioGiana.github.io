@@ -1,5 +1,6 @@
 import { useSelector } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router';
+import styles from './Pagination.module.css';
 
 
 export default function Pagination() {
@@ -8,10 +9,18 @@ export default function Pagination() {
   const pageNumbers = new Array(totalPages).fill(0).map((_, i) => i + 1);
   let endpoint = useLocation().search;
   endpoint = endpoint.length ? endpoint : false;
+  let currentPage = endpoint && endpoint.includes("page") ? endpoint.split("page=")[1].split("&")[0] : false;
+  console.log("current", currentPage);
 
   const firstPage = (event) => {
     navigate("/pokemons");
 }
+
+const lastPage = (event) => {
+  navigate(`/pokemons?page=${totalPages}` );
+}
+
+
 
   const handleChangePage = (event) => {
     let pageNumber = event.target.value;
@@ -25,13 +34,22 @@ export default function Pagination() {
   }
 
   return (
-    <div>
+    <div className={styles.container}>
       <input type="button" value="First Page" onClick={firstPage} />
+      <div className={styles.divpages }>
       {
         pageNumbers.map(number => (
-          <input key={number} type="button" value={number} onClick={handleChangePage}/>
+          <input 
+          className={currentPage === number.toString() ? styles.active : styles.page}
+          key={number} 
+          type="button" 
+          value={number} 
+          onClick={handleChangePage}
+          />
         ))
       }
+      </div>
+      <input type="button" value="Last Page" onClick={lastPage} />
     </div>
   )
 }

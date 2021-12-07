@@ -70,6 +70,11 @@
     background: linear-gradient(to bottom, #5e60ce, white 50%)
 }
 
+.divImg {
+    max-height: 100%;
+    width: 300px;
+}
+
 .pokeimg {
     max-height: 100%;
     max-width: 300px;

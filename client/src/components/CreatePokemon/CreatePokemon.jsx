@@ -61,9 +61,9 @@ export default function CreatePokemon() {
     const handleSubmit = (event) => {
         const create = async () => {
             event.preventDefault();
-            navigate("/pokemons/mypokemons");
             const response = await createPokemon(input);
-            console.log(response);
+            navigate("/pokemons/mypokemons");
+            console.log("body: ", response);
         }
         create();
     }
@@ -76,7 +76,7 @@ export default function CreatePokemon() {
         <div className={styles.create}>
             <h1>Create a new Pokemon</h1>
             <div className={styles.container}>
-                <form className={styles.form} method="post" onSubmit={handleSubmit}>
+                <form className={styles.form} onSubmit={handleSubmit}>
                     <div className={styles.formbody}>
                         <div className={styles.group}>
                             <div className={styles.item}>

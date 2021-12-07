@@ -5,7 +5,7 @@ import PokemonCard from '../PokemonCard/PokemonCard';
 import { getPokemons } from '../../redux/actions';
 import styles from './Pokemons.module.css';
 
-export default function Pokemons({ sepecificPokemons }) {
+export default function Pokemons({ specificPokemons }) {
     const dispatch = useDispatch();
     let endpoint = useLocation().search;
     endpoint = endpoint.length ? endpoint : false;
@@ -25,11 +25,9 @@ export default function Pokemons({ sepecificPokemons }) {
     }, [endpoint, dispatch]);
 
 
-    console.log("spec", sepecificPokemons);
     let pokemons = useSelector(state => state.pokemons);
-    console.log("pokemons", pokemons);
 
-    if (sepecificPokemons) pokemons = sepecificPokemons;
+    if (specificPokemons) pokemons = specificPokemons;
 
     if (loading) return <h1>Loading...</h1>
     if (!pokemons.length) return <h2>No pokemons found</h2>

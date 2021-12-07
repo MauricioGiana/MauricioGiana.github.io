@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {useParams, useNavigate} from 'react-router-dom';
 import { getTypes } from "../../redux/actions";
 import { editPokemon } from '../../Controllers';
+import styles from './EditPokemon.module.css';
 
 export default function CreatePokemon() {
     const {idPokemon} = useParams();
@@ -19,6 +20,7 @@ export default function CreatePokemon() {
             try {
                 await dispatch(getTypes());
                 const {data} = await axios(`http://localhost:3001/pokemons/${idPokemon}`);
+                console.log("data", data);
                 setInput(data);
                 setLoading(false);
             } catch (error) {
@@ -42,6 +44,7 @@ export default function CreatePokemon() {
     const addOrQuitType = (event) => {
         event.preventDefault();
         const { value } = event.target;
+        if (!input.types) input.types = [];
         const type = input.types.find(t => t === value);
         if (type) {
             setInput({
@@ -71,10 +74,10 @@ export default function CreatePokemon() {
     }
 
     return (
-        <div>
+        <div className={styles.divedit}>
             <form onSubmit={handleSubmit}>
                 <div>
-                    <label>Pokemon name:</label>
+                    <label>Pokemon name: </label>
                     <input
                         type="text"
                         name="name"
@@ -83,11 +86,12 @@ export default function CreatePokemon() {
                     />
                 </div>
                 <div>
-                    <label>Image:</label>
+                    <label>Image: </label>
                     <input
                         type="url"
                         name="image"
                         value={input.image}
+                        onChange={handleChange}
                     />
                 </div>
                 <div>
@@ -98,7 +102,7 @@ export default function CreatePokemon() {
                                 <input
                                     type="number"
                                     name={stat}
-                                    value={input[stat]}
+                                    value={input && input[stat]}
                                     onChange={handleChange}
                                 />
                             </div>
@@ -115,13 +119,13 @@ export default function CreatePokemon() {
                     }
                 </select>
                 {
-                    input.types?.length && input.types.map((type) => (
-                        <div key={type.id}>
-                            <input type="button" value={type.name} onClick={addOrQuitType}/>
+                    input.types?.length > 0 && input.types.map((type) => (
+                        <div key={type}>
+                            <input type="button" value={type} onClick={addOrQuitType}/>
                         </div>
                     ))}
                 </div>
-            <input type="submit" onSubmit={handleSubmit}/>
+            <input type="submit" onSubmit={handleSubmit} value="Save changes"/>
             </form>
         </div>
     );

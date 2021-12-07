@@ -44,7 +44,7 @@ export default function MyPokemons() {
             <input className="delete" type="button" value="Delete all pokemons" onClick={handleDeleteAll} />
             </div>
             <div className={styles.pokemons}>
-            <Pokemons sepecificPokemons={mypokemons}/>
+            <Pokemons specificPokemons={mypokemons}/>
             </div>
         </div>
     )

@@ -51,7 +51,8 @@
 }
 
 .details > img {
-    width: 300px;
+    max-height: 100%;
+    max-width: 300px;
 }
 
 .details {
@@ -59,5 +60,31 @@
     justify-content: space-between;
     width: 40vw;
     color: whitesmoke;
+}
+
+.types {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.typeslist {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.divimg {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px;
+}
+
+.image {
+    max-height: 100%;
+    max-width: 400px;
 }
 

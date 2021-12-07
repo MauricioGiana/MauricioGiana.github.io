@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useLocation } from "react-router";
 import PokemonCard from "../PokemonCard/PokemonCard";
 import { searchPokemon } from "../../Controllers";
+import Pokemons from "../Pokemons/Pokemons";
 
 export default function SearchResults() {
     const { search } = useLocation();
@@ -36,18 +37,7 @@ export default function SearchResults() {
     return (
         <div>
             <h2>Search results: </h2>
-            {
-                searchResults.map((pokemon) => {
-                    return <PokemonCard
-                        key={pokemon.id}
-                        id={pokemon.id}
-                        name={pokemon.name}
-                        types={pokemon.types}
-                        image={pokemon.image}
-                        isFavorite={pokemon.isFavorite}
-                    />
-                })
-            }
+            <Pokemons specificPokemons={searchResults} />
         </div>
     )
 }

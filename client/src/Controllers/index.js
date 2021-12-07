@@ -6,7 +6,7 @@ export const createPokemon = async (pokemon) => {
         const { data } = await axios.post("http://localhost:3001/pokemons", pokemon);
         return data
     } catch (error) {
-        console.log(error)
+        error.response.data.message && alert(error.response.data.message);
     }
 }
 

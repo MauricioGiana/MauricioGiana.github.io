@@ -56,9 +56,11 @@ const PokemonDetails = () => {
                     <h2>{pokemonDetails.name}</h2>
                 </div>
                 <div className={styles.details}>
-                    <img src={pokemonDetails.image} alt={pokemonDetails.name} />
+                    <div className={styles.divimg}>
+                    <img className={styles.image} src={pokemonDetails.image} alt={pokemonDetails.name} />
+                    </div>
                     <div className={styles.info}>
-                        <h4>Stats</h4>
+                        <h4>Stats: </h4>
                         <p>Hp: {pokemonDetails.hp}</p>
                         <p>Attack: {pokemonDetails.attack}</p>
                         <p>Defense: {pokemonDetails.defense}</p>
@@ -66,10 +68,14 @@ const PokemonDetails = () => {
                         <p>Height: {pokemonDetails.height}</p>
                         <p>Weight: {pokemonDetails.weight}</p>
                     </div>
+                    <div className={styles.types}>
                     <h4>Types:</h4>
+                    <div className={styles.typeslist}>
                     {pokemonDetails.types?.map(type => (
                         <p key={type.id}>{type.name}</p>
                     ))}
+                    </div>
+                    </div>
                 </div>
                 {
                         pokemonDetails.isCreated && (

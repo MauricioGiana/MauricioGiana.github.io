@@ -18,11 +18,9 @@ export class PokemonCard extends Component {
     componentDidMount() {
         const fetchFavs = async () => {
             await getFavorites();
-            console.log(this.props.favorites);
             this.setState({
                 isFavorite: this.props.favorites.some(fav => fav.id === this.props.id)
             })
-            console.log("isFav", this.props.favorites.some(fav => fav.id === this.props.id));
         }
         fetchFavs();
     }
@@ -33,15 +31,12 @@ export class PokemonCard extends Component {
         const add = async () => {
             this.setState({ isFavorite: true });
             try {
-                console.log("entre a add fav")
                 const resp = await addFavorite(this.props.id);
-                console.log("resp add", resp)
             } catch (error) {
                 console.log(error)
             }
         }
         add();
-        this.setState({ isFavorite: true });
     }
 
     handleQuitFavorite = (event) => {
