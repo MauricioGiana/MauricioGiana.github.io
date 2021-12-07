@@ -1,3 +1,132 @@
+
 .divedit {
-    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    width: 80vw;
+    position: relative;
+    left: 25vw;
+}
+
+.header > input {
+    position: relative;
+    right: 150px;
+}
+
+
+
+.form {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    background-color: #10451d;
+    color: whitesmoke;
+    height: 400px;
+    width: 1059px;
+    border: 3px solid whitesmoke;
+    border-radius: 25px;
+}
+
+h1 {
+    font-size: 50px;
+    font-weight: bold;
+    margin-top: 30px;
+}
+
+
+.formbody {
+    display: flex;
+    flex-direction: row;
+}
+
+.item {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+}
+
+.item > label {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.item > input {
+    font-size: 20px;
+    width: 120px;
+}
+
+.stat {
+    width: 100px;
+}
+
+.group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 350px;
+    gap: 15px;
+}
+
+.types {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.typeslist {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+}
+
+.selected {
+    display: flex;
+    flex-wrap: wrap;
+    width: 180px;
+}
+
+.input {
+    height: 30px;
+    font-size: 20;
+    border-radius: 5px;
+    border: 1px solid black;
+}
+
+.submit {
+    display: flex;
+    justify-content: flex-end;
+    height: 40px;
+    padding-top: 40px;
+}
+
+.divsubmit {
+    height: 35px;
+    width: 200px;
+    position: relative;
+    right: 40px;
+    border-radius: 10px;
+    border: 2px solid whitesmoke;
+}
+
+.divsubmit > input {
+    height: 100%;
+    width: 100%;
+    font-size: 25px;
+    border-radius: 10px;
+    background-color: #33521c;
+    color: whitesmoke;
+    cursor: pointer;
+}
+
+.divsubmit > input:hover {
+    background-color: #a9d126;
+    color: black;
 }

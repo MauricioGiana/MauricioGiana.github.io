@@ -6,6 +6,7 @@ import { getPokemon } from "../../redux/actions";
 import { deletePokemon } from '../../Controllers';
 import Loading from '../Loading/Loading';
 import styles from './PokemonDetails.module.css';
+import pokeBall from '../../images/pokeBall.png';
 
 
 const PokemonDetails = () => {
@@ -28,6 +29,7 @@ const PokemonDetails = () => {
     }, [id, dispatch, setLoading]);
 
     const pokemonDetails = useSelector(state => state.pokemon);
+
 
     const deleteFunction = (event) => {
         event.preventDefault();
@@ -57,10 +59,10 @@ const PokemonDetails = () => {
                 </div>
                 <div className={styles.details}>
                     <div className={styles.divimg}>
-                    <img className={styles.image} src={pokemonDetails.image} alt={pokemonDetails.name} />
+                        <img src={pokemonDetails.image} alt={pokeBall} />
                     </div>
                     <div className={styles.info}>
-                        <h4>Stats: </h4>
+                        <h3>Stats: </h3>
                         <p>Hp: {pokemonDetails.hp}</p>
                         <p>Attack: {pokemonDetails.attack}</p>
                         <p>Defense: {pokemonDetails.defense}</p>
@@ -69,22 +71,22 @@ const PokemonDetails = () => {
                         <p>Weight: {pokemonDetails.weight}</p>
                     </div>
                     <div className={styles.types}>
-                    <h4>Types:</h4>
-                    <div className={styles.typeslist}>
-                    {pokemonDetails.types?.map(type => (
-                        <p key={type.id}>{type.name}</p>
-                    ))}
-                    </div>
+                        <h3>Types:</h3>
+                        <div className={styles.typeslist}>
+                            {pokemonDetails.types?.map(type => (
+                                <p key={type.id}>{type.name}</p>
+                            ))}
+                        </div>
                     </div>
                 </div>
                 {
-                        pokemonDetails.isCreated && (
-                            <div className={styles.custombtn}>
-                                <input className={styles.editbtn} type="button" value="Edit pokemon" onClick={() => navigate(`/pokemons/edit/${pokemonDetails.id}`)} />
-                                <input className="delete" type="button" value="Delete pokemon" onClick={deleteFunction} />
-                            </div>
-                        )
-                    }
+                    pokemonDetails.isCreated && (
+                        <div className={styles.custombtn}>
+                            <input className={styles.editbtn} type="button" value="Edit pokemon" onClick={() => navigate(`/pokemons/edit/${pokemonDetails.id}`)} />
+                            <input className="delete" type="button" value="Delete pokemon" onClick={deleteFunction} />
+                        </div>
+                    )
+                }
             </div>
         </div>
     )

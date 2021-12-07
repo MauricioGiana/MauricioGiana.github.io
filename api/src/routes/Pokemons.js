@@ -11,13 +11,14 @@ router.get("/", async (req, res, next) => {
     try {
         if (req.query.name) {
             const pokemonApi = await fetchPokemons(req.query.name);
-            const pokemonDb = await Pokemon.findOne({ where: { name: req.query.name } });
+            const pokemonDb = await Pokemon.findOne({ where: { name: req.query.name }, include: Type });
             if (pokemonApi) return res.json(pokemonApi);
             if (pokemonDb) return res.json(pokemonDb);
             return res.status(404).json({ message: "Pokemon not found" });
         }
         const pokemonsDb = await Pokemon.findAll({
             attributes: ['id', 'name', 'image', 'attack', "isCreated"],
+            include: Type,
         });
         if (req.query.filter === "db") response = pokemonsDb;
         if (!pokemonsApi) pokemonsApi = await fetchPokemons();
@@ -41,10 +42,6 @@ router.get("/", async (req, res, next) => {
                 return 0;
             })
         }
-        /* if (req.query.search) {
-            const { search } = req.query;
-            response = response.filter(pokemon => pokemon.name.toLowerCase().includes(search.toLowerCase()));
-        } */
         const totalPages = Math.ceil(response.length / 12);
         if (req.query.getallpokemons) {
             return res.json({
@@ -74,8 +71,8 @@ router.get("/:idPokemon", async (req, res, next) => {
     const { idPokemon } = req.params;
     try {
         const pokemonApi = await fetchPokemons(idPokemon);
-        const pokemonDb = await Pokemon.findOne({ where: { id: idPokemon } });
         if (pokemonApi) return res.json(pokemonApi);
+        const pokemonDb = await Pokemon.findOne({ where: { id: idPokemon }, include:  Type  });
         if (pokemonDb) return res.json(pokemonDb);
         return res.status(404).json({ message: "Pokemon not found" });
     } catch (error) {
@@ -108,22 +105,20 @@ router.post("/", async (req, res, next) => {
 });
 
 router.put("/edit/:idPokemon", async (req, res, next) => {
-    const {
-        name, image, height, weight, hp, attack, defense, speed, types
-    } = req.body;
+    const newParams = {};
+    for (let key in req.body) {
+        key !== "types" && (req.body[key] && (newParams[key] = req.body[key]));
+    }
+    const types = req.body.types;
     const { idPokemon } = req.params;
     try {
-        if (idPokemon) {
-            const newParams = {};
-            const params = {
-                name, image, height, weight, hp, attack, defense, speed, types
-            }
-            for (let key in params) {
-                if (params[key]) newParams[key] = params[key];
-            }
-            await Pokemon.update(newParams, { where: { id: idPokemon } });
-            res.json({ message: "Pokemon edited successfuly" });
-        }
+        await Pokemon.update(newParams, { where: { id: idPokemon } });
+    if (types && types.length) {
+        const typesDb = await Type.findAll({ where: { name: types } });
+        const pokemon = await Pokemon.findOne({ where: { id: idPokemon } });
+        pokemon.setTypes(typesDb.map(type => type.id));
+        res.json(pokemon);
+    }
     } catch (error) {
         next(error);
     }

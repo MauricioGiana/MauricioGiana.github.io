@@ -18,7 +18,7 @@ export const searchPokemon = async (name) => {
 
 export const editPokemon = async (idPokemon, pokemon) => {
     const { data } = await axios.put(`http://localhost:3001/pokemons/edit/${idPokemon}`, pokemon);
-    return data
+    return data;
 }
 
 export const deletePokemon = async (idPokemon) => {

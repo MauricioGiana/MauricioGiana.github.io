@@ -1,7 +1,6 @@
 const { Router } = require('express');
 const router = Router();
 const axios = require('axios');
-const { Pokemon, Type } = require('./db');
 
 module.exports = fetchPokemons = async (argument) => {
     let url;
