@@ -25,6 +25,8 @@ export default function Filters() {
 
     const types = useSelector(state => state.types);
 
+    console.log(types);
+
     const resetPokemons = () => {
         const reset = async () => {
             try {

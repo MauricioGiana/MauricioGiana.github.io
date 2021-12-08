@@ -91,6 +91,7 @@ export default function CreatePokemon() {
                                 name="name"
                                 value={input.name}
                                 onChange={handleChange}
+                                maxLength="20"
                             />
                         </div>
                         <div className={styles.item}>
@@ -101,6 +102,7 @@ export default function CreatePokemon() {
                                 name="image"
                                 value={input.image}
                                 onChange={handleChange}
+                                maxLength="255"
                             />
                         </div>
                     </div>

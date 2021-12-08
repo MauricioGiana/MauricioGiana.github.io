@@ -32,7 +32,7 @@
     gap: 5px;
 }
 
-.divpages > input {
+.nocurrent {
     width: 30px;
     height: 30px;
     font-size: 20px;
@@ -42,13 +42,16 @@
     cursor: pointer;
 }
 
-.divpages > input:hover {
+.nocurrent:hover {
     background-color: #bbadff;
     color: #240046;
     border: 2px solid #240046;
 }
 
-.active {
+.current {
+    width: 30px;
+    height: 30px;
+    font-size: 20px;
     background-color: #bbadff;
     color: #240046;
     border: 2px solid #240046;

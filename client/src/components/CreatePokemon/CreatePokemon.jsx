@@ -92,6 +92,7 @@ export default function CreatePokemon() {
                                     onChange={handleChange}
                                     required
                                     autoComplete="off"
+                                    maxLength="20"
                                 />
                             </div>
                             <div className={styles.item}>
@@ -102,6 +103,7 @@ export default function CreatePokemon() {
                                     name="image"
                                     value={input.image}
                                     onChange={handleChange}
+                                    maxLength="255"
                                 />
                             </div>
                         </div>

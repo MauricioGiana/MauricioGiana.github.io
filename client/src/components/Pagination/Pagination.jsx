@@ -39,8 +39,16 @@ const lastPage = (event) => {
       <div className={styles.divpages }>
       {
         pageNumbers.map(number => (
+          number.toString() !== currentPage ?
           <input 
-          className={currentPage === number.toString() ? styles.active : styles.page}
+          className={styles.nocurrent}
+          key={number} 
+          type="button" 
+          value={number} 
+          onClick={handleChangePage}
+          /> :
+          <input 
+          className={styles.current}
           key={number} 
           type="button" 
           value={number} 

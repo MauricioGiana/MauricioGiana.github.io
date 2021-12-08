@@ -35,8 +35,11 @@ const PokemonDetails = () => {
         event.preventDefault();
         const deleteFunc = async () => {
             try {
-                await deletePokemon(pokemonDetails.id);
-                navigate(-1);
+                const sure = window.confirm("Are you sure you want to delete your pokemon?");
+                if (sure) {
+                    await deletePokemon(pokemonDetails.id);
+                    navigate(-1);
+                }
             } catch (error) {
                 console.log(error);
             }

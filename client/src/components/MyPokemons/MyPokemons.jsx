@@ -21,10 +21,20 @@ export default function MyPokemons() {
         fetchData();
     }, []);
 
-    const handleDeleteAll = async (event) => {
-        event.preventDefault();
-        await deleteAllPokemons();
-        setMyPokemons([]);
+    const handleDeleteAll = (event) => {
+        const deleteAll = async () => {
+            try {
+                const sure = window.confirm('Are you sure you want to delete all your pokemons?');
+                if (sure) {
+                    event.preventDefault();
+                    await deleteAllPokemons();
+                    setMyPokemons([]);
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        deleteAll();
     }
 
 

@@ -5,13 +5,13 @@ import { deletaAllFavorites } from '../../Controllers';
 import { getFavorites } from '../../redux/actions';
 import Pokemons from '../Pokemons/Pokemons';
 import styles from './Favorites.module.css';
+import Loading from '../Loading/Loading';
 
 
 const Favorites = () => {
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const favorites = useSelector(state => state.favorites);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -25,6 +25,23 @@ const Favorites = () => {
         fetchData();
     }, [dispatch]);
 
+    const favorites = useSelector(state => state.favorites);
+
+    const handleDeleteAll = () => {
+        const deleteAll = async () => {
+            try {
+                const sure = window.confirm('Are you sure you want to delete all favorites?');
+                if (sure) {
+                    await deletaAllFavorites();
+                    dispatch(getFavorites());
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        deleteAll();
+    }
+
 
 
     return (
@@ -35,11 +52,11 @@ const Favorites = () => {
                     <h1 className={styles.title}>Favorites</h1>
                 </div>
                 {
-                    !loading && favorites.length > 0 && <input className="delete" type="button" value="Delete all favorites" onClick={deletaAllFavorites} />
+                    !loading && favorites.length > 0 && <input className="delete" type="button" value="Delete all favorites" onClick={handleDeleteAll} />
                 }
             </div>
             {
-                loading && <h2>Loading...</h2>
+                loading && <Loading />
             }
             {
                 !loading && favorites.length === 0 && <h2>No favorites</h2>
