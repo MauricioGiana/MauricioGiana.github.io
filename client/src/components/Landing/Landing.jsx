@@ -9,7 +9,7 @@ export class Landing extends Component {
 
 
     componentDidMount() {
-
+        getPokemons();
     }
 
     render() {
@@ -21,8 +21,8 @@ export class Landing extends Component {
                         <img src={pokemonlogo} alt="pokemonlogo" />
                         <h2>Henry Individual Project</h2>
                     </div>
-                    <Link to="/pokemons">
-                        <div className={styles.divtohome}><span>To Home</span></div>
+                    <Link className={styles.linkhome} to="/pokemons">
+                        <p>To Home</p>
                     </Link>
                 </div>
             </div>

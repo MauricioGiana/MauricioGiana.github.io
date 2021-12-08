@@ -13,6 +13,7 @@ export default function Home() {
     const dispatch = useDispatch();
     let endpoint = useLocation().search;
     endpoint = endpoint.length ? endpoint : false;
+    let currentPage = endpoint && endpoint.includes("page") ? endpoint.split("page=")[1].split("&")[0] : false;
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -45,7 +46,7 @@ export default function Home() {
                 <div className={styles.pokemons}>
             <p className={styles.title}>Pokemons</p>
                     <Pokemons />
-                    <Pagination />
+                    <Pagination endpoint={endpoint} currentPage={currentPage} />
                 </div>
             </div>
         </div>

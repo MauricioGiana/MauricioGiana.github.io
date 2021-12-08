@@ -3,13 +3,10 @@ import { useNavigate, useLocation } from 'react-router';
 import styles from './Pagination.module.css';
 
 
-export default function Pagination() {
+export default function Pagination({endpoint, currentPage}) {
   const totalPages = useSelector((state) => state.totalPages);
   const navigate = useNavigate();
   const pageNumbers = new Array(totalPages).fill(0).map((_, i) => i + 1);
-  let endpoint = useLocation().search;
-  endpoint = endpoint.length ? endpoint : false;
-  let currentPage = endpoint && endpoint.includes("page") ? endpoint.split("page=")[1].split("&")[0] : false;
   console.log("current", currentPage);
 
   const firstPage = (event) => {

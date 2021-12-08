@@ -30,22 +30,27 @@
     width: 20em;
 }
 
-.divtohome {
+.linkhome {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background-color: #240046;
     font-size: 30px;
     border: 3px solid #5a189a;
-    border-radius: 15px;
-    width: 150px;
     margin-top: 20px;
     color: whitesmoke;
-}
-
-.divtohome > span {
     width: 150px;
+    height: 35px;
     border-radius: 15px;
 }
 
-.divtohome :hover {
-    background-color: #9fa0ff;
-    color: black;
+.linkhome p {
+    width: 100%;
+    height: 100%;
+    border-radius: 15px;
+}
+
+.linkhome :hover {
+    background-color: #757bc8;
+    color: #240046;
 }
