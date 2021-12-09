@@ -44,6 +44,15 @@ export default function Filters({endpoint}) {
         if (value === "Reset Pokemons") {
             resetPokemons();
         };
+        if (value === "All") {
+            if (endpoint && endpoint.includes("filter")) {
+                console.log(endpoint);
+                endpoint = endpoint.replace(/\Dfilter=(api|db)/g, "")
+                console.log(endpoint);
+                endpoint = endpoint[0] === "&" ? endpoint.replace("&", "?") : endpoint
+                navigate(`/pokemons${endpoint}`);
+            } 
+        }
         if (value === "Existing") {
             if (endpoint && endpoint.includes("filter=db")) {
                 endpoint = endpoint.replace("filter=db", "filter=api");
@@ -107,6 +116,7 @@ export default function Filters({endpoint}) {
                             <label className={styles.label}>By origin</label>
                             <select className={styles.select} onChange={handleSubmit}>
                                 <option label="select..." />
+                                <option value="All">All Pokemons</option>
                                 <option value="Existing">Existing</option>
                                 <option value="Created">Created</option>
                             </select>

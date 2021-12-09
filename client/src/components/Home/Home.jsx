@@ -13,7 +13,7 @@ export default function Home() {
     const dispatch = useDispatch();
     let endpoint = useLocation().search;
     endpoint = endpoint.length ? endpoint : false;
-    let currentPage = endpoint && endpoint.includes("page") ? endpoint.split("page=")[1].split("&")[0] : false;
+    let currentPage = endpoint && endpoint.includes("page") ? parseInt(endpoint.split("page=")[1].split("&")[0]) : false;
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {

@@ -38,8 +38,6 @@ Pokemon.belongsToMany(Type, { through: 'Pokemon_Type' });
 Type.belongsToMany(Pokemon, { through: 'Pokemon_Type' });
 
 
-console.log(sequelize.models);
-
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
   conn: sequelize,     // para importart la conexión { conn } = require('./db.js');

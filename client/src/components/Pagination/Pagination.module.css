@@ -10,8 +10,18 @@
     bottom: 10px;
 }
 
-.container > input {
+.firstlast {
     width: 120px;
+    height: 30px;
+    font-size: 20px;
+    background-color: #240046;
+    border: 2px solid #bbadff;
+    color: #bbadff;
+    cursor: pointer;
+}
+
+.prevnext {
+    width: 50px;
     height: 30px;
     font-size: 20px;
     background-color: #240046;

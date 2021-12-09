@@ -28,6 +28,26 @@ const lastPage = (event) => {
     } else navigate(`/pokemons?page=${totalPages}`);
 }
 
+const prevPage = (event) => {
+  event.preventDefault();
+    if (endpoint && endpoint.includes("page") && currentPage > 1) {
+      endpoint = endpoint.replace(/page=\d+/, `page=${currentPage - 1}`);
+      navigate(`/pokemons${endpoint}`);
+    } 
+}
+
+  const nextPage = (event) => {
+    event.preventDefault();
+    if (endpoint && endpoint.includes("page") && currentPage < totalPages) {
+      endpoint = endpoint.replace(/page=\d+/, `page=${currentPage + 1}`);
+      navigate(`/pokemons${endpoint}`);
+    } else if (endpoint && currentPage < totalPages) {
+      navigate(`/pokemons${endpoint}&page=${currentPage + 1}`);
+    } else if (endpoint && !endpoint.includes("page")) {
+      navigate(`/pokemons${endpoint}?page=2`);
+    } else if (currentPage < totalPages) navigate(`/pokemons?page=2`);
+  }
+
 
 
   const handleChangePage = (event) => {
@@ -42,11 +62,12 @@ const lastPage = (event) => {
 
   return (
     <div className={styles.container}>
-      <input type="button" value="First Page" onClick={firstPage} />
+      <input className={styles.firstlast} type="button" value="First Page" onClick={firstPage} />
+      <input className={styles.prevnext} type="button" value="<" onClick={prevPage} />
       <div className={styles.divpages }>
       {
         pageNumbers.map(number => (
-          number.toString() !== currentPage ?
+          number !== currentPage ?
           <input 
           className={styles.nocurrent}
           key={number} 
@@ -64,7 +85,8 @@ const lastPage = (event) => {
         ))
       }
       </div>
-      <input type="button" value="Last Page" onClick={lastPage} />
+      <input className={styles.prevnext} type="button" value=">" onClick={nextPage} />
+      <input className={styles.firstlast} type="button" value="Last Page" onClick={lastPage} />
     </div>
   )
 }

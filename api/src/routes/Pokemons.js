@@ -22,7 +22,7 @@ router.get("/", async (req, res, next) => {
             attributes: ['id', 'name', 'image', 'attack', "isCreated"],
             include: Type,
         });
-        if (req.query.filter === "db") response = pokemonsDb;
+        if (req.query.filter === "db") response = [...pokemonsDb];
         if (!pokemonsApi) pokemonsApi = await fetchPokemons();
         if (req.query.filter === "api") response = [...pokemonsApi];
         if (!req.query.filter) response = [...pokemonsApi, ...pokemonsDb];
@@ -30,16 +30,15 @@ router.get("/", async (req, res, next) => {
             const pokemonsFiltered = pokemons.filter(pokemon => pokemon.types.some(type => type.name === req.query.type));
             return res.json(pokemonsFiltered);
         } */
-        const sortResponse = response;
         if (req.query.order) {
             const { order } = req.query;
             const [prop, ord] = order.split("-");
-            if (ord === "asc") sortResponse.sort((a, b) => {
+            if (ord === "asc") response.sort((a, b) => {
                 if (a[prop] > b[prop]) return 1;
                 if (a[prop] < b[prop]) return -1;
                 return 0;
             })
-            else sortResponse.sort((a, b) => {
+            else response.sort((a, b) => {
                 if (a[prop] < b[prop]) return 1;
                 if (a[prop] > b[prop]) return -1;
                 return 0;
@@ -58,12 +57,12 @@ router.get("/", async (req, res, next) => {
             let end = page * 12; start = end - 12;
             return res.json({
                 totalPages,
-                results: req.query.order ? sortResponse.slice(start, end) : response.slice(start, end)
+                results: response.slice(start, end)
             });
         }
         res.json({
             totalPages,
-            results: req.query.order ? sortResponse.slice(0, 12) : response.slice(0, 12)
+            results: response.slice(0, 12)
         });
     } catch (error) {
         next(error);
