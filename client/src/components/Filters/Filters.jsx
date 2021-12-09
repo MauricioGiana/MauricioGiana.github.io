@@ -46,9 +46,7 @@ export default function Filters({endpoint}) {
         };
         if (value === "All") {
             if (endpoint && endpoint.includes("filter")) {
-                console.log(endpoint);
                 endpoint = endpoint.replace(/\Dfilter=(api|db)/g, "")
-                console.log(endpoint);
                 endpoint = endpoint[0] === "&" ? endpoint.replace("&", "?") : endpoint
                 navigate(`/pokemons${endpoint}`);
             } 
