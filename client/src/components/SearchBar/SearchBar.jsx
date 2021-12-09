@@ -1,11 +1,9 @@
-import { useNavigate, useLocation } from 'react-router';
+import { useNavigate } from 'react-router';
 import { FcSearch } from 'react-icons/fc';
 import styles from './SearchBar.module.css';
 
 export default function SearchBar() {
     const navigate = useNavigate();
-    const { search } = useLocation();
-    console.log(search);
 
     const handleChange = (event) => {
         const { value } = event.target;

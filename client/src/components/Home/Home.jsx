@@ -41,7 +41,7 @@ export default function Home() {
         <div className={styles.home}>
             <div className={styles.content}>
                 <div className={styles.filters}>
-                <Filters />
+                <Filters endpoint={endpoint} />
                     </div>
                 <div className={styles.pokemons}>
             <p className={styles.title}>Pokemons</p>

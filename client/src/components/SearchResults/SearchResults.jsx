@@ -22,8 +22,6 @@ export default function SearchResults() {
         }
     }, [name]);
 
-
-    console.log("searchs", searchResults);
     
     if (loading) {
         return <div>Loading results...</div>

@@ -8,7 +8,16 @@ import styles from './EditPokemon.module.css';
 
 export default function CreatePokemon() {
     const { idPokemon } = useParams();
-    const [input, setInput] = useState({});
+    const [input, setInput] = useState({
+        name: '',
+        hp: 0,
+        attack: 0,
+        defense: 0,
+        speed: 0,
+        height: 0,
+        weight: 0,
+        types: [],
+    });
 
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
@@ -21,7 +30,6 @@ export default function CreatePokemon() {
                 await dispatch(getTypes());
                 let { data } = await axios(`http://localhost:3001/pokemons/${idPokemon}`);
                 data.types = data.types.map(type => type.name);
-                console.log("data", data);
                 setInput(data);
                 setLoading(false);
             } catch (error) {
@@ -60,15 +68,17 @@ export default function CreatePokemon() {
         }
     }
 
-
-
-
-
-    const handleSubmit = async (event) => {
+    const handleSubmit = (event) => {
         event.preventDefault();
-        const edit = await editPokemon(idPokemon, input);
-        console.log("edit", edit);
-        navigate(-1)
+        const edit = async () => {
+            try {
+                editPokemon(idPokemon, input);
+                navigate(-1)
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        edit();
     }
 
     if (loading) {
@@ -115,7 +125,7 @@ export default function CreatePokemon() {
                                         className={styles.stat}
                                         type="number"
                                         name={stat}
-                                        value={input && input[stat]}
+                                        value={input[stat]}
                                         onChange={handleChange}
                                     />
                                 </div>
@@ -136,7 +146,7 @@ export default function CreatePokemon() {
                                 <div className={styles.selected}>
                                     {
                                         input.types?.length > 0 && input.types.map((type) => (
-                                                <input key={type} type="button" value={type} onClick={addOrQuitType} />
+                                            <input key={type} type="button" value={type} onClick={addOrQuitType} />
                                         ))}
                                 </div>
                             </div>

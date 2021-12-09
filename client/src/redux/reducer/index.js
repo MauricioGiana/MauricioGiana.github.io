@@ -42,7 +42,8 @@ const rootReducer = (state = initialState, { type, payload }) => {
         case GET_POKEMONS_BY_TYPE:
             return {
                 ...state,
-                pokemons: payload
+                pokemons: payload,
+                totalPages: Math.ceil(payload.length / 12)
             };
         case SEARCH_POKEMON:
             return {

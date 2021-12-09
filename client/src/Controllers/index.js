@@ -43,17 +43,18 @@ export const getFavorites = async () => {
 
 export const addFavorite = async (idPokemon) => {
     const { data } = await axios.post(`http://localhost:3001/favorites/add/${idPokemon}`);
-    console.log("add", data);
+    console.log(data);
     return data;
 }
 
 export const quitFavorite = async (idPokemon) => {
     const { data } = await axios.delete(`http://localhost:3001/favorites/quit/${idPokemon}`);
-    console.log("delete", data);
+    console.log(data);
     return data
 }
 
 export const deletaAllFavorites = async () => {
     const { data } = await axios.delete(`http://localhost:3001/favorites/deleteall`);
+    console.log(data);
     return data
 }

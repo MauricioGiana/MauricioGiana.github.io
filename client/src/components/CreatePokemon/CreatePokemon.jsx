@@ -7,6 +7,13 @@ import styles from './CreatePokemon.module.css';
 
 export default function CreatePokemon() {
     const [input, setInput] = useState({
+        name: "",
+        hp: 0,
+        attack: 0,
+        defense: 0,
+        speed: 0,
+        height: 0,
+        weight: 0,
         types: [],
     });
 
@@ -54,16 +61,12 @@ export default function CreatePokemon() {
         }
     }
 
-
-
-
-
     const handleSubmit = (event) => {
         const create = async () => {
             event.preventDefault();
             const response = await createPokemon(input);
             navigate("/pokemons/mypokemons");
-            console.log("body: ", response);
+            console.log(response);
         }
         create();
     }

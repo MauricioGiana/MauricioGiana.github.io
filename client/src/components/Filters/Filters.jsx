@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router';
 import { getTypes, getPokemonsByType, getPokemons } from '../../redux/actions';
 import styles from './Filters.module.css';
 
-export default function Filters() {
+export default function Filters({endpoint}) {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [loadingTypes, setLoadingTypes] = useState(true);
@@ -25,12 +25,10 @@ export default function Filters() {
 
     const types = useSelector(state => state.types);
 
-    console.log(types);
-
     const resetPokemons = () => {
         const reset = async () => {
             try {
-                await dispatch(getPokemons(''));
+                await dispatch(getPokemons());
                 navigate('/pokemons');
             }
             catch (error) {
@@ -46,12 +44,42 @@ export default function Filters() {
         if (value === "Reset Pokemons") {
             resetPokemons();
         };
-        if (value === "Existing") navigate('/pokemons?page=1&filter=api');
-        if (value === "Created") navigate('/pokemons?page=1&filter=db');
-        if (value === "nameAsc") navigate('/pokemons?page=1&order=name-asc');
-        if (value === "nameDes") navigate('/pokemons?page=1&order=name-des');
-        if (value === "attackAsc") navigate('/pokemons?page=1&order=attack-asc');
-        if (value === "attackDes") navigate('/pokemons?page=1&order=attack-des');
+        if (value === "Existing") {
+            if (endpoint && endpoint.includes("filter=db")) {
+                endpoint = endpoint.replace("filter=db", "filter=api");
+                navigate("/pokemons" + endpoint)
+            } else navigate("/pokemons" + (endpoint ? (endpoint + "&") : "?") + "filter=api");
+        };
+        if (value === "Created") {
+            if (endpoint && endpoint.includes("filter=api")) {
+                endpoint = endpoint.replace("filter=api", "filter=db");
+                navigate("/pokemons" + endpoint)
+            } else navigate("/pokemons" + (endpoint ? (endpoint + "&") : "?") + "filter=db");
+        };
+        if (value === "nameAsc") {
+            if (endpoint && endpoint.includes("order")) {
+                endpoint = endpoint.split("order")[0] + "order=name-asc";
+                navigate("/pokemons" + endpoint)
+            } else navigate("/pokemons" + (endpoint ? (endpoint + "&") : "?") + "order=name-asc");
+        };
+        if (value === "nameDes") {
+            if (endpoint && endpoint.includes("order")) {
+                endpoint = endpoint.split("order")[0] + "order=name-des";
+                navigate("/pokemons" + endpoint)
+            } else navigate("/pokemons" + (endpoint ? (endpoint + "&") : "?") + "order=name-des");
+        };
+        if (value === "attackAsc") {
+            if (endpoint && endpoint.includes("order")) {
+                endpoint = endpoint.split("order")[0] + "order=attack-asc";
+                navigate("/pokemons" + endpoint)
+            } else navigate("/pokemons" + (endpoint ? (endpoint + "&") : "?") + "order=attack-asc");
+        };
+        if (value === "attackDes") {
+            if (endpoint && endpoint.includes("order")) {
+                endpoint = endpoint.split("order")[0] + "order=attack-des";
+                navigate("/pokemons" + endpoint)
+            } else navigate("/pokemons" + (endpoint ? (endpoint + "&") : "?") + "order=attack-des");
+        };
     }
 
     const filterTypes = (event) => {

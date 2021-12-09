@@ -5,7 +5,8 @@ const { Pokemon, Type } = require('../db');
 const fetchPokemons = require('../utils');
 
 let pokemonsApi;
-let response;
+
+
 
 router.get("/", async (req, res, next) => {
     try {
@@ -16,27 +17,29 @@ router.get("/", async (req, res, next) => {
             if (pokemonDb) return res.json(pokemonDb);
             return res.status(404).json({ message: "Pokemon not found" });
         }
+        let response = [];
         const pokemonsDb = await Pokemon.findAll({
             attributes: ['id', 'name', 'image', 'attack', "isCreated"],
             include: Type,
         });
         if (req.query.filter === "db") response = pokemonsDb;
         if (!pokemonsApi) pokemonsApi = await fetchPokemons();
-        if (req.query.filter === "api") response = pokemonsApi;
+        if (req.query.filter === "api") response = [...pokemonsApi];
         if (!req.query.filter) response = [...pokemonsApi, ...pokemonsDb];
         /* if (req.query.type) {
             const pokemonsFiltered = pokemons.filter(pokemon => pokemon.types.some(type => type.name === req.query.type));
             return res.json(pokemonsFiltered);
         } */
+        const sortResponse = response;
         if (req.query.order) {
             const { order } = req.query;
             const [prop, ord] = order.split("-");
-            if (ord === "asc") response.sort((a, b) => {
+            if (ord === "asc") sortResponse.sort((a, b) => {
                 if (a[prop] > b[prop]) return 1;
                 if (a[prop] < b[prop]) return -1;
                 return 0;
             })
-            else response.sort((a, b) => {
+            else sortResponse.sort((a, b) => {
                 if (a[prop] < b[prop]) return 1;
                 if (a[prop] > b[prop]) return -1;
                 return 0;
@@ -55,12 +58,12 @@ router.get("/", async (req, res, next) => {
             let end = page * 12; start = end - 12;
             return res.json({
                 totalPages,
-                results: response.slice(start, end)
+                results: req.query.order ? sortResponse.slice(start, end) : response.slice(start, end)
             });
         }
         res.json({
             totalPages,
-            results: response.slice(0, 12)
+            results: req.query.order ? sortResponse.slice(0, 12) : response.slice(0, 12)
         });
     } catch (error) {
         next(error);
@@ -94,11 +97,10 @@ router.post("/", async (req, res, next) => {
         if (created && types && types.length) {
             const typesDb = await Type.findAll({ where: { name: types } });
             pokemon.addTypes(typesDb.map(type => type.id));
-            return res.json(pokemon);
         }
         created ?
-            res.status(200).json(params) :
-            res.status(400).json({ message: "Pokemon already exists" });
+            res.status(200).json({msg: "Pokemon created successfully"}) :
+            res.status(400).json({ msg: "Pokemon already exists" });
     } catch (error) {
         next(error);
     }
@@ -117,7 +119,7 @@ router.put("/edit/:idPokemon", async (req, res, next) => {
         const typesDb = await Type.findAll({ where: { name: types } });
         const pokemon = await Pokemon.findOne({ where: { id: idPokemon } });
         pokemon.setTypes(typesDb.map(type => type.id));
-        res.json(pokemon);
+        res.json({ msg: "Pokemon updated successfully" });
     }
     } catch (error) {
         next(error);

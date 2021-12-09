@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { useNavigate, useLocation } from 'react-router';
+import { useNavigate } from 'react-router';
 import styles from './Pagination.module.css';
 
 
@@ -7,27 +7,37 @@ export default function Pagination({endpoint, currentPage}) {
   const totalPages = useSelector((state) => state.totalPages);
   const navigate = useNavigate();
   const pageNumbers = new Array(totalPages).fill(0).map((_, i) => i + 1);
-  console.log("current", currentPage);
 
   const firstPage = (event) => {
-    navigate("/pokemons");
+    event.preventDefault();
+    if (endpoint && endpoint.includes("page")) {
+      endpoint = endpoint.replace(/page=\d+/, "page=1");
+      navigate(`/pokemons${endpoint}`);
+    } else if (endpoint) {
+      navigate(`/pokemons${endpoint}`);
+    } else navigate("/pokemons");
 }
 
 const lastPage = (event) => {
-  navigate(`/pokemons?page=${totalPages}` );
+  event.preventDefault();
+    if (endpoint && endpoint.includes("page")) {
+      endpoint = endpoint.replace(/page=\d+/, `page=${totalPages}`);
+      navigate(`/pokemons${endpoint}`);
+    } else if (endpoint) {
+      navigate(`/pokemons${endpoint}&page=${totalPages}`);
+    } else navigate(`/pokemons?page=${totalPages}`);
 }
 
 
 
   const handleChangePage = (event) => {
     let pageNumber = event.target.value;
-    if (!endpoint) navigate(`/pokemons?page=${pageNumber}`);
-    else if (endpoint.includes("page")) {
-      let newEndpoint = endpoint.split("page=")[0] + "page=" + pageNumber;
-      let cutPoint = endpoint.indexOf("&");
-      if (cutPoint > 0) newEndpoint += endpoint.slice(cutPoint);
-      navigate(`/pokemons${newEndpoint}`);
-    }
+    if (endpoint && endpoint.includes("page")) {
+      endpoint = endpoint.replace(/page=\d+/, `page=${pageNumber}`);
+      navigate(`/pokemons${endpoint}`);
+    } else if (endpoint) {
+      navigate("/pokemons" + endpoint + "&page=" + pageNumber);
+    } else navigate(`/pokemons?page=${pageNumber}`);
   }
 
   return (
