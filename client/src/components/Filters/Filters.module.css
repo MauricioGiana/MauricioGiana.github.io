@@ -28,12 +28,12 @@
     height: 70px;
     position: relative;
     top: 25px;
-    
 }
 
 .divreset :hover {
     cursor: pointer;
     background-color: #f95738;
+    transition: 0.5s;
 }
 
 .divreset > input {
@@ -69,4 +69,5 @@
     height: 30px;
     font-size: 15px;
 }
+
 

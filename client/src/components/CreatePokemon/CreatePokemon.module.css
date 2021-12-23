@@ -92,12 +92,23 @@ h1 {
     width: 180px;
 }
 
+.selected :hover {
+    background-color: #a0001c;
+    color: whitesmoke;
+    cursor: pointer;
+    transition: 0.5;
+    height: 30px;
+    border-radius: 5px;
+    border: 1px solid whitesmoke;
+}
+
 .input {
     height: 30px;
     font-size: 20;
     border-radius: 5px;
     border: 1px solid black;
 }
+
 
 .submit {
     display: flex;

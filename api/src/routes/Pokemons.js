@@ -19,17 +19,16 @@ router.get("/", async (req, res, next) => {
         }
         let response = [];
         const pokemonsDb = await Pokemon.findAll({
-            attributes: ['id', 'name', 'image', 'attack', "isCreated"],
+            attributes: ['id', 'name', 'image', 'attack', "speed", "isCreated"],
             include: Type,
         });
         if (req.query.filter === "db") response = [...pokemonsDb];
         if (!pokemonsApi) pokemonsApi = await fetchPokemons();
         if (req.query.filter === "api") response = [...pokemonsApi];
         if (!req.query.filter) response = [...pokemonsApi, ...pokemonsDb];
-        /* if (req.query.type) {
-            const pokemonsFiltered = pokemons.filter(pokemon => pokemon.types.some(type => type.name === req.query.type));
-            return res.json(pokemonsFiltered);
-        } */
+        if (req.query.type) {
+            response = response.filter(pokemon => pokemon.types.some(type => type.name === req.query.type));
+        }
         if (req.query.order) {
             const { order } = req.query;
             const [prop, ord] = order.split("-");
@@ -87,6 +86,7 @@ router.post("/", async (req, res, next) => {
     for (let key in req.body) {
         key !== "types" && (params[key] = req.body[key]);
     }
+    if (params.image === "") params.image = "https://cdn.pixabay.com/photo/2019/11/18/15/46/pokemon-4635112_960_720.png";
     const types = req.body.types;
     try {
         const [pokemon, created] = await Pokemon.findOrCreate({

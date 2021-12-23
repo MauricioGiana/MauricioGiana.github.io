@@ -59,7 +59,7 @@ export const getTypes = () => {
         const { data } = await axios("http://localhost:3001/types");
         dispatch({
             type: GET_TYPES,
-            payload: data.sort((a, b) => a.id - b.id)
+            payload: data
         })
     }
 }

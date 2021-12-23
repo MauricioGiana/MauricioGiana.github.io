@@ -53,4 +53,5 @@
 .linkhome :hover {
     background-color: #757bc8;
     color: #240046;
+    transition: 0.5s;
 }

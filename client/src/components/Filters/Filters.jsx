@@ -40,7 +40,7 @@ export default function Filters({endpoint}) {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        const { value } = event.target;
+        const { value, name } = event.target;
         if (value === "Reset Pokemons") {
             resetPokemons();
         };
@@ -62,6 +62,17 @@ export default function Filters({endpoint}) {
                 endpoint = endpoint.replace("filter=api", "filter=db");
                 navigate("/pokemons" + endpoint)
             } else navigate("/pokemons" + (endpoint ? (endpoint + "&") : "?") + "filter=db");
+        };
+        if (name === "type") {
+            if (!endpoint || (endpoint && !endpoint.includes("type"))) {
+                navigate(`/pokemons?type=${value}`);
+            }   else if (/type=\D+&/.test(endpoint)) {
+                endpoint = endpoint.replace(/type=\D+&/, `type=${value}&`);
+                navigate(`/pokemons${endpoint}`);
+            } else if (/type=\D+/.test(endpoint)) {
+                endpoint = endpoint.replace(/type=\D+/, `type=${value}`);
+                navigate(`/pokemons${endpoint}`);
+            }
         };
         if (value === "nameAsc") {
             if (endpoint && endpoint.includes("order")) {
@@ -86,6 +97,18 @@ export default function Filters({endpoint}) {
                 endpoint = endpoint.split("order")[0] + "order=attack-des";
                 navigate("/pokemons" + endpoint)
             } else navigate("/pokemons" + (endpoint ? (endpoint + "&") : "?") + "order=attack-des");
+        };
+        if (value === "speedAsc") {
+            if (endpoint && endpoint.includes("order")) {
+                endpoint = endpoint.split("order")[0] + "order=speed-asc";
+                navigate("/pokemons" + endpoint)
+            } else navigate("/pokemons" + (endpoint ? (endpoint + "&") : "?") + "order=speed-asc");
+        };
+        if (value === "speedDes") {
+            if (endpoint && endpoint.includes("order")) {
+                endpoint = endpoint.split("order")[0] + "order=speed-des";
+                navigate("/pokemons" + endpoint)
+            } else navigate("/pokemons" + (endpoint ? (endpoint + "&") : "?") + "order=speed-des");
         };
     }
 
@@ -121,7 +144,7 @@ export default function Filters({endpoint}) {
                         </div>
                         <div className={styles.item}>
                             <label className={styles.label}>By type </label>
-                            <select className={styles.select} onChange={filterTypes}>
+                            <select className={styles.select} name='type' onChange={handleSubmit}>
                                 <option label="select..." />
                                 {
                                     types.map(type => (
@@ -144,6 +167,14 @@ export default function Filters({endpoint}) {
                                 <option label="select..." />
                                 <option value="attackAsc">Ascending</option>
                                 <option value="attackDes">Descending</option>
+                            </select>
+                        </div>
+                        <div className={styles.item} >
+                            <label className={styles.label}>Order by speed</label>
+                            <select className={styles.select} onChange={handleSubmit}>
+                                <option label="select..." />
+                                <option value="speedAsc">Ascending</option>
+                                <option value="speedDes">Descending</option>
                             </select>
                         </div>
                         <div className={styles.divreset}>

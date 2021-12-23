@@ -2,6 +2,7 @@ const { Router } = require("express");
 const router = Router();
 const { Type } = require("../db");
 const axios = require("axios");
+const sequelize = require("sequelize");
 
 
 
@@ -13,9 +14,10 @@ router.get("/", async (req, res) => {
             const { data: { name, id } } = await axios(type.url);
             await Type.create({ name, id });
         }))
-        return res.json(await Type.findAll());
+        const tps = await Type.findAll();
+        return res.json(tps.sort((a, b) => a.id - b.id));
     }
-    res.json(types);
+    res.json(types.sort((a, b) => a.id - b.id));
 });
 
 module.exports = router;

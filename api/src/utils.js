@@ -33,6 +33,7 @@ async function fetchFunc(url) {
                                 name: result.data.name[0].toUpperCase() + result.data.name.slice(1),
                                 id: result.data.id,
                                 attack: result.data.stats[1].base_stat,
+                                speed: result.data.stats[5].base_stat,
                                 image: result.data.sprites.other.home.front_default,
                                 types: result.data.types.map(type => ({
                                     name: type.type.name,

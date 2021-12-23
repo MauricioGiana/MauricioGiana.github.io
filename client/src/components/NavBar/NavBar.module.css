@@ -89,6 +89,7 @@
 .nocurrent :hover {
     background-color: #40916c;
     color: black;
+    transition: 0.5s;
 }
 
 .nocurrent :active {
@@ -104,9 +105,9 @@
     color: #240046;
     height: 100%;
     font-size: 20px;
-    border-top: 1px solid #240046;
-    border-left: 1px solid #240046;
-    border-right: 1px solid #240046;
+    border-top: 1px solid whitesmoke;
+    border-left: 2px solid whitesmoke;
+    border-right: 2px solid whitesmoke;
     padding-left: 5px;
     padding-right: 5px;
 }
