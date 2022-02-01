@@ -4,11 +4,25 @@
 .pokemoncard {
     display: flex;
     flex-direction: column;
-    border-radius: 20px;
-    border: 8px solid;
+    border-radius: 1.5vw;
+    border: 0.5vw solid;
     border-color: #0d1516;
-    width: 300px;
-    height: 415px;
+    width: 17vw;
+    box-shadow: 10px 10px 8px 0px rgba(0, 0, 0, 0.3), 3px 6px 20px 0 rgba(0, 0, 0, 0.2);
+    animation: slidein 0.5s;
+}
+
+@keyframes slidein {
+    from {
+        transform: translateY(30%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+.pokemoncard:hover {
+    border-color: #d100d1;
 }
 
 
@@ -16,12 +30,13 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    align-items: center;
-    height: 70px;
+    align-items: flex-start;
+    height: 5.5vw;
     background-color: #38413f;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    color: white
+    border-top-left-radius: 1.2vw;
+    border-top-right-radius: 1.2vw;
+    color: white;
+    transition: 0.3s;
 }
 
 .divTitle {
@@ -29,27 +44,51 @@
     flex-direction: row;
     align-items: center;
     font-family: var(--nameCard-font-family);
-    font-size: 20px;
-    max-width: 180px;
+    height: 5.5vw;
+}
+
+.name {
+    color: white;
+    font-size: 1.6vw;
+}
+
+.name:hover {
+    color: #d4d700;
+    transform: scale(1.1);
+    transition: 0.5s;
+}
+
+.longname {
+    color: white;
+    font-size: 1.2vw;
+}
+
+.longname:hover {
+    color: #d4d700;
+    transform: scale(1.1);
+    transition: 0.5s;
 }
 
 .customIcon {
-    width: 30px;
-    height: 30px;
+    width: 2vw;
+    height: 2vw;
     padding-left: 10px;
+    padding-top: 8px;
 }
 
 .favIcon {
-    width: 40px;
-    height: 40px;
+    width: 2.3vw;
+    height: 2.3vw;
     padding-right: 10px;
+    margin-top: 8px;
     cursor: pointer;
 }
 
 .favIconOn {
-    width: 40px;
-    height: 40px;
+    width: 2.3vw;
+    height: 2.3vw;
     padding-right: 10px;
+    margin-top: 8px;
     cursor: pointer;
     color: yellow
 }
@@ -72,37 +111,53 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 300px;
+    height: 14vw;
     padding-top: 8px;
     padding-bottom: 8px;
-    background: linear-gradient(to bottom, #613dc1, white 50%)
+    background: linear-gradient(to bottom, rgba(97, 61, 193, 0.7), rgba(255, 255, 255, 0.7) 50%);
+    
 }
-
-.divImg {
-    max-height: 100%;
-    width: 300px;
-}
-
 .pokeimg {
     max-height: 100%;
-    max-width: 300px;
+    max-width: 100%;
+    transition: 0.4s;
+}
+
+.pokeimg:hover {
+    transform: scale(1.04);
 }
 
 .divTypes {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    background-color: rgb(56, 65, 63);
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    height: 100%;
 }
 
 .types {
     display: flex;
+    justify-content: center;
     align-items: center;
-    background-color: #b392ac;
-    font-size: 20px;
+    font-size: 1.2vw;
     font-weight: bold;
-    padding-left: 10px;
-    padding-right: 10px;
-    border-bottom-left-radius: 12px;
-    height: 30px;
+    border-bottom: 1px solid #cbb2fe;
+    color: whitesmoke;
+    padding-top: 1px;
+    padding-bottom: 1px;
+}
+
+.divtype {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.divtype > img {
+    width: 1.6vw;
 }
 
 .typesContainer {
@@ -110,13 +165,11 @@
     flex-direction: row;
     justify-content: space-evenly;
     align-items: center;
-    font-size: 20px;
+    font-size: 1vw;
+    height: 2vw;
     width: 100%;
-    background-color: #64dfdf;
-    border-bottom-right-radius: 12px;
-    height: 30px;
+    border-bottom-left-radius: 1.2vw;
+    border-bottom-right-radius: 1.2vw;
+    color: whitesmoke;
 }
 
-.name {
-    color: white;
-}

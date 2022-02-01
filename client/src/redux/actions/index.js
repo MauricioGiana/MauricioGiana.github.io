@@ -57,6 +57,9 @@ export const getPokemon = (nameOrId) => {
 export const getTypes = () => {
     return async dispatch => {
         const { data } = await axios("http://localhost:3001/types");
+        data.forEach(type => {
+            type.pathLogo = `../`
+        })
         dispatch({
             type: GET_TYPES,
             payload: data

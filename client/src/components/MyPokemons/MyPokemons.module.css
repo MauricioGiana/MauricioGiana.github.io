@@ -1,16 +1,50 @@
+.mypokemons {
+    background-image: url("../../assets/images/bg-6.jpg");
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 h1 {
-    font-size: 50px;
+    font-size: 4vw;
+    text-shadow: whitesmoke 0 0 10px;
 }
 
 .header {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-items: center;
-    margin-left: 100px;
-    margin-right: 100px;
+    width: 70vw;
     border-bottom: 3px solid black;
 }
 
 .pokemons {
     padding-top: 40px;
+    padding-bottom: 30px;
+}
+
+.header input {
+    width: 14vw;
+    height: 2.5vw;
+    font-size: 1.2vw;
+}
+
+.header input:hover {
+    background-color: #240046;
+}
+
+.deletebtn {
+    font-size: 1.5vw;
+    height: 2.3vw;
+    width: 13vw;
+    border-radius: 1vw;
+    cursor: pointer;
+    background-color: #800c0e;
+    color: whitesmoke;
+    border: solid #220901 0.2vw;
+}
+
+.deletebtn:hover {
+    background-color: #a4161a;
 }

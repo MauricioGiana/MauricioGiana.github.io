@@ -7,9 +7,6 @@
   pointer-events: none;
 }
 
-Landing {
-  background-color: red;
-}
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {

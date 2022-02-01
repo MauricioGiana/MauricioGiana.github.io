@@ -2,7 +2,7 @@ import SearchBar from '../SearchBar/SearchBar';
 import { Link } from 'react-router-dom';
 import { useLocation } from 'react-router';
 import styles from './NavBar.module.css';
-import pokeBall from '../../images/pokeBall.png';
+import pokeBall from '../../assets/images/pokeBall.png';
 
 
 export default function NavBar() {
@@ -10,7 +10,6 @@ export default function NavBar() {
 
     return (
         <nav className={styles.navbar}>
-            <div className={styles.navcontainer}>
                 <Link to={"/"}>
                     <div className={styles.header}>
                         <img className={styles.landicon} src={pokeBall} alt="Landing" />
@@ -21,7 +20,7 @@ export default function NavBar() {
                     </div>
                 </Link>
                 <div className={styles.items}>
-                    <Link className={styles.nocurrent} to="/pokemons">
+                    <Link className={styles.homebtn} to="/pokemons">
                         <span>Home</span>
                         </Link>
                         {
@@ -36,14 +35,13 @@ export default function NavBar() {
                         }
                         {
                             current === "/pokemons/create" ?
-                            <Link className={styles.current} to="/pokemons/create"><span>Create your Pokemon</span></Link> :
-                            <Link className={styles.nocurrent} to="/pokemons/create"><span>Create your Pokemon</span></Link>
+                            <Link className={styles.lastbtn2} to="/pokemons/create"><span>Create your Pokemon</span></Link> :
+                            <Link className={styles.lastbtn1} to="/pokemons/create"><span>Create your Pokemon</span></Link>
                         }
                 </div>
                 <div className={styles.search}>
                     <SearchBar />
                 </div>
-            </div>
         </nav>
     )
 }

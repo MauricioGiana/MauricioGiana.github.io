@@ -1,12 +1,54 @@
+.favorites {
+    background-image: url("../../assets/images/bg-1.jpg");
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .header {
     display: flex;
     justify-content: space-evenly;
     align-items: center;
+    border-bottom: 3px solid black;
+    margin-bottom: 30px;
+    width: 70vw;
+    text-shadow: whitesmoke 0 0 10px;
 }
 
 .main {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-items: center;
-    gap: 80px
+    gap: 8vw;
+}
+
+.header input {
+    width: 13vw;
+    height: 2.5vw;
+    font-size: 1.2vw;
+}
+
+.header input:hover {
+    background-color: #240046;
+}
+
+.deletebtn {
+    font-size: 1.5vw;
+    height: 2.3vw;
+    width: 13vw;
+    border-radius: 1vw;
+    cursor: pointer;
+    background-color: #800c0e;
+    color: whitesmoke;
+    border: solid #220901 0.2vw;
+}
+
+.deletebtn:hover {
+    background-color: #a4161a;
+}
+
+.pokecontainer {
+    padding-bottom: 30px;
 }

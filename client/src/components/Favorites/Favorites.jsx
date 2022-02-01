@@ -45,7 +45,7 @@ const Favorites = () => {
 
 
     return (
-        <div className="favorites">
+        <div className={styles.favorites}>
             <div className={styles.header}>
                 <div className={styles.main}>
                     <input className="back" type="button" value="Back" onClick={() => navigate('/pokemons')} />
@@ -63,7 +63,7 @@ const Favorites = () => {
             }
             {
                 favorites.length > 0 && (
-                    <div>
+                    <div className={styles.pokecontainer}>
                         <Pokemons specificPokemons={favorites} />
                     </div>
                 )

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router';
 import { getPokemons, getTypes, getFavorites } from '../../redux/actions';
 import Loading from '../Loading/Loading';
@@ -9,12 +9,15 @@ import Filters from '../Filters/Filters';
 import Pagination from '../Pagination/Pagination';
 import styles from './Home.module.css';
 
+
 export default function Home() {
     const dispatch = useDispatch();
     let endpoint = useLocation().search;
     endpoint = endpoint.length ? endpoint : false;
     let currentPage = endpoint && endpoint.includes("page") ? parseInt(endpoint.split("page=")[1].split("&")[0]) : false;
+    const totalPages = useSelector((state) => state.totalPages);
     const [loading, setLoading] = useState(true);
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -41,12 +44,16 @@ export default function Home() {
         <div className={styles.home}>
             <div className={styles.content}>
                 <div className={styles.filters}>
-                <Filters endpoint={endpoint} />
-                    </div>
+                    <Filters endpoint={endpoint} />
+                </div>
                 <div className={styles.pokemons}>
-            <p className={styles.title}>Pokemons</p>
+                    <p className={styles.title}>Pokemons</p>
+                    <div className={styles.pokemons}>
                     <Pokemons />
-                    <Pagination endpoint={endpoint} currentPage={currentPage} />
+                    </div>
+                    {
+                        totalPages > 1 && <Pagination endpoint={endpoint} currentPage={currentPage} totalPages={totalPages} />
+                    }
                 </div>
             </div>
         </div>

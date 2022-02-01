@@ -1,10 +1,8 @@
-import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import styles from './Pagination.module.css';
 
 
-export default function Pagination({endpoint, currentPage}) {
-  const totalPages = useSelector((state) => state.totalPages);
+export default function Pagination({endpoint, currentPage, totalPages}) {
   const navigate = useNavigate();
   const pageNumbers = new Array(totalPages).fill(0).map((_, i) => i + 1);
 

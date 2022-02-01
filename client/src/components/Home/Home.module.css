@@ -1,9 +1,18 @@
+.home {
+    background-image: url("../../assets/images/bg-6.jpg");
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 
 .title {
-    font-size: 70px;
-    margin-top: 30px;
-    margin-bottom: 30px;
-    border-bottom: 4px solid black;
+    font-size: 4vw;
+    margin-top: 2vw;
+    margin-bottom: 2vw;
+    border-bottom: 0.3vw solid black;
+    text-shadow: whitesmoke 0 0 10px;
 }
 
 .content {
@@ -15,5 +24,9 @@
 .filters {
     margin-top: 150px;
     margin-left: 50px;
+}
+
+.pokemons {
+    padding-bottom: 30px;
 }
 

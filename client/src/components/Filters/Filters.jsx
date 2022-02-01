@@ -3,11 +3,13 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { getTypes, getPokemonsByType, getPokemons } from '../../redux/actions';
 import styles from './Filters.module.css';
+import { IoIosArrowDroprightCircle } from 'react-icons/io';
 
-export default function Filters({endpoint}) {
+export default function Filters({ endpoint }) {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [loadingTypes, setLoadingTypes] = useState(true);
+    const [showFilters, setShowFilters] = useState(false);
 
 
     useEffect(() => {
@@ -49,7 +51,7 @@ export default function Filters({endpoint}) {
                 endpoint = endpoint.replace(/\Dfilter=(api|db)/g, "")
                 endpoint = endpoint[0] === "&" ? endpoint.replace("&", "?") : endpoint
                 navigate(`/pokemons${endpoint}`);
-            } 
+            }
         }
         if (value === "Existing") {
             if (endpoint && endpoint.includes("filter=db")) {
@@ -66,7 +68,7 @@ export default function Filters({endpoint}) {
         if (name === "type") {
             if (!endpoint || (endpoint && !endpoint.includes("type"))) {
                 navigate(`/pokemons?type=${value}`);
-            }   else if (/type=\D+&/.test(endpoint)) {
+            } else if (/type=\D+&/.test(endpoint)) {
                 endpoint = endpoint.replace(/type=\D+&/, `type=${value}&`);
                 navigate(`/pokemons${endpoint}`);
             } else if (/type=\D+/.test(endpoint)) {
@@ -125,64 +127,76 @@ export default function Filters({endpoint}) {
         filter();
     }
 
+    const handleShowFilters = (e) => {
+        e.preventDefault();
+        setShowFilters(!showFilters);
+    }
+
     if (loadingTypes) return <h3>Loading types...</h3>;
 
+
     return (
-        <div className={styles.filterscontainer}>
-            <div className={styles.title}><span>Filters</span></div>
-            <div className={styles.divform}>
-                <form >
-                    <div className={styles.form}>
-                        <div className={styles.item}>
-                            <label className={styles.label}>By origin</label>
-                            <select className={styles.select} onChange={handleSubmit}>
-                                <option label="select..." />
-                                <option value="All">All Pokemons</option>
-                                <option value="Existing">Existing</option>
-                                <option value="Created">Created</option>
-                            </select>
-                        </div>
-                        <div className={styles.item}>
-                            <label className={styles.label}>By type </label>
-                            <select className={styles.select} name='type' onChange={handleSubmit}>
-                                <option label="select..." />
-                                {
-                                    types.map(type => (
-                                        <option key={type.id} value={type.name}>{type.name}</option>
-                                    ))
-                                }
-                            </select>
-                        </div>
-                        <div className={styles.item}>
-                            <label className={styles.label}>Order by name</label>
-                            <select className={styles.select} onChange={handleSubmit}>
-                                <option label="select..." />
-                                <option value="nameAsc">Ascending</option>
-                                <option value="nameDes">Descending</option>
-                            </select>
-                        </div>
-                        <div className={styles.item} >
-                            <label className={styles.label}>Order by attack</label>
-                            <select className={styles.select} onChange={handleSubmit}>
-                                <option label="select..." />
-                                <option value="attackAsc">Ascending</option>
-                                <option value="attackDes">Descending</option>
-                            </select>
-                        </div>
-                        <div className={styles.item} >
-                            <label className={styles.label}>Order by speed</label>
-                            <select className={styles.select} onChange={handleSubmit}>
-                                <option label="select..." />
-                                <option value="speedAsc">Ascending</option>
-                                <option value="speedDes">Descending</option>
-                            </select>
-                        </div>
-                        <div className={styles.divreset}>
-                            <input type="button" onClick={handleSubmit} value="Reset Pokemons" />
-                        </div>
+        <div className={styles.filters}>
+            <div className={showFilters ? styles.show2 : styles.show1} onClick={handleShowFilters} >
+                <span className={styles.showfilters}>FILTERS</span>
+                <IoIosArrowDroprightCircle className={showFilters ? styles.invertarrow : styles.arrow} />
+            </div>
+                    <div className={showFilters ? styles.filterscontainer : styles.filterscontainerout} >
+                        <div className={styles.title}><span>Filters</span></div>
+                        <div className={styles.divform}>
+                            <form >
+                                <div className={styles.form}>
+                                    <div className={styles.item}>
+                                        <label className={styles.label}>By origin</label>
+                                        <select className={styles.select} onChange={handleSubmit}>
+                                            <option label="select..." />
+                                            <option value="All">All Pokemons</option>
+                                            <option value="Existing">Existing</option>
+                                            <option value="Created">Created</option>
+                                        </select>
+                                    </div>
+                                    <div className={styles.item}>
+                                        <label className={styles.label}>By type </label>
+                                        <select className={styles.select} name='type' onChange={handleSubmit}>
+                                            <option label="select..." />
+                                            {
+                                                types.map(type => (
+                                                    <option key={type.id} value={type.name}>{type.name}</option>
+                                                ))
+                                            }
+                                        </select>
+                                    </div>
+                                    <div className={styles.item}>
+                                        <label className={styles.label}>Order by name</label>
+                                        <select className={styles.select} onChange={handleSubmit}>
+                                            <option label="select..." />
+                                            <option value="nameAsc">Ascending</option>
+                                            <option value="nameDes">Descending</option>
+                                        </select>
+                                    </div>
+                                    <div className={styles.item} >
+                                        <label className={styles.label}>Order by attack</label>
+                                        <select className={styles.select} onChange={handleSubmit}>
+                                            <option label="select..." />
+                                            <option value="attackAsc">Ascending</option>
+                                            <option value="attackDes">Descending</option>
+                                        </select>
+                                    </div>
+                                    <div className={styles.item} >
+                                        <label className={styles.label}>Order by speed</label>
+                                        <select className={styles.select} onChange={handleSubmit}>
+                                            <option label="select..." />
+                                            <option value="speedAsc">Ascending</option>
+                                            <option value="speedDes">Descending</option>
+                                        </select>
+                                    </div>
+                                    <div className={styles.divreset}>
+                                        <input type="button" onClick={handleSubmit} value="Reset Pokemons" />
+                                    </div>
+                                </div >
+                            </form >
+                        </div >
                     </div >
-                </form >
-            </div >
-        </div >
+        </div>
     )
 }

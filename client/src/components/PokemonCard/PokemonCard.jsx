@@ -6,6 +6,8 @@ import { getFavorites } from '../../redux/actions';
 import styles from './PokemonCard.module.css';
 import { BsPersonCheckFill } from "react-icons/bs";
 import { AiOutlineStar, AiTwotoneStar } from "react-icons/ai";
+import typebug from '../../assets/images/types_logos/type_bug.png';
+import PokemonTypes from '../PokemonTypes/PokemonTypes';
 
 export class PokemonCard extends Component {
     constructor() {
@@ -45,6 +47,7 @@ export class PokemonCard extends Component {
             this.setState({ isFavorite: false });
             try {
                 await quitFavorite(this.props.id);
+                await this.props.getFavorites();
             } catch (error) {
                 console.log(error)
             }
@@ -63,8 +66,11 @@ export class PokemonCard extends Component {
                         }
                     </div>
                     <div className={styles.divTitle}>
-                        <Link className={styles.name} to={`/pokemons/${this.props.id}`}>
-                            <h3>{this.props.name}</h3>
+                        <Link 
+                        className={this.props.name.length < 12 ? styles.name : styles.longname} 
+                        to={`/pokemons/${this.props.id}`}
+                        >
+                            <span>{this.props.name}</span>
                         </Link>
                     </div>
                     <div>
@@ -83,10 +89,13 @@ export class PokemonCard extends Component {
                     </Link>
                 </div>
                 <div className={styles.divTypes}>
-                    <span className={styles.types}>TYPES </span>
+                    <span className={styles.types}>TYPES</span>
                     <div className={styles.typesContainer}>
                         {this.props.types?.map(type => (
-                            <span key={type.id}>{type.name}</span>
+                            <div key={type.id} className={styles.divtype}>
+                                <img src={PokemonTypes[type.name]} alt="" />
+                                <span>{type.name}</span>
+                            </div>
                         ))}
                     </div>
                 </div>

@@ -9,7 +9,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
   --nameCard-font-family: 'Gloria Hallelujah', cursive;
   --home-background-color: #d4a276;
-  background-color: var(--home-background-color);
 }
 
 code {

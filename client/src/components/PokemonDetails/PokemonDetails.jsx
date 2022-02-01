@@ -6,7 +6,8 @@ import { getPokemon } from "../../redux/actions";
 import { deletePokemon } from '../../Controllers';
 import Loading from '../Loading/Loading';
 import styles from './PokemonDetails.module.css';
-import pokeBall from '../../images/pokeBall.png';
+import pokeBall from '../../assets/images/pokeBall.png';
+import PokemonTypes from '../PokemonTypes/PokemonTypes';
 
 
 const PokemonDetails = () => {
@@ -55,9 +56,7 @@ const PokemonDetails = () => {
         <div className={styles.pokemondetails}>
             <div className={styles.container}>
                 <div className={styles.header}>
-                    <div>
-                        <input className="back" type="button" value="<< Back" onClick={() => navigate(-1)} />
-                    </div>
+                    <input className="back" type="button" value="<< Back" onClick={() => navigate(-1)} />
                     <h2>{pokemonDetails.name}</h2>
                 </div>
                 <div className={styles.details}>
@@ -66,18 +65,21 @@ const PokemonDetails = () => {
                     </div>
                     <div className={styles.info}>
                         <h3>Stats: </h3>
-                        <p>Hp: {pokemonDetails.hp}</p>
-                        <p>Attack: {pokemonDetails.attack}</p>
-                        <p>Defense: {pokemonDetails.defense}</p>
-                        <p>Speed: {pokemonDetails.speed}</p>
-                        <p>Height: {pokemonDetails.height}</p>
-                        <p>Weight: {pokemonDetails.weight}</p>
+                        <span>Hp: {pokemonDetails.hp}</span>
+                        <span>Attack: {pokemonDetails.attack}</span>
+                        <span>Defense: {pokemonDetails.defense}</span>
+                        <span>Speed: {pokemonDetails.speed}</span>
+                        <span>Height: {pokemonDetails.height}</span>
+                        <span>Weight: {pokemonDetails.weight}</span>
                     </div>
                     <div className={styles.types}>
                         <h3>Types:</h3>
                         <div className={styles.typeslist}>
                             {pokemonDetails.types?.map(type => (
-                                <p key={type.id}>{type.name}</p>
+                                <div key={type.id} className={styles.divtype}>
+                                    <img src={PokemonTypes[type.name]} alt="" />
+                                    <span>{type.name}</span>
+                                </div>
                             ))}
                         </div>
                     </div>
@@ -86,7 +88,7 @@ const PokemonDetails = () => {
                     pokemonDetails.isCreated && (
                         <div className={styles.custombtn}>
                             <input className={styles.editbtn} type="button" value="Edit pokemon" onClick={() => navigate(`/pokemons/edit/${pokemonDetails.id}`)} />
-                            <input className="delete" type="button" value="Delete pokemon" onClick={deleteFunction} />
+                            <input className={styles.deletebtn} type="button" value="Delete pokemon" onClick={deleteFunction} />
                         </div>
                     )
                 }

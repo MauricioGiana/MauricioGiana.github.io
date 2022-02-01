@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
 import { getPokemons } from '../../redux/actions';
-import pokemonlogo from '../../images/pokemonlogo.png';
+import pokemonlogo from '../../assets/images/pokemonlogo.png';
 import styles from './Landing.module.css';
 
 export class Landing extends Component {

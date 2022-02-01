@@ -1,17 +1,126 @@
 .filterscontainer {
+    position: fixed;
+    top: 15vh;
+    left: 1vw;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: #3c096c;
-    padding: 15px;
-    border-radius: 20px;
-    border: 3px solid whitesmoke;
+    background-color: rgba(60, 9, 108, 0.9);
+    padding: 1vw;
+    border-radius: 1.8vw;
+    border: 0.3vw solid whitesmoke;
+    z-index: 1;
+    width: 18em;
+    animation: slidein1 0.5s;
 }
+
+.filterscontainerout {
+    display: none;
+}
+
+@keyframes slidein1 {
+    from {
+        transform: translateX(-18em);
+    }
+    to {
+        transform: translateX(0%);
+    }
+}
+
+@keyframes slideout1 {
+    from {
+        transform: translateX(calc(1vw + 18em));
+    }
+    to {
+        transform: translateX(calc((1vw + 18em) * -1));
+    }
+}
+    
+
+.show1 {
+    position: fixed;
+    top: 50vh;
+    left: 1vw;
+    z-index: 2;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+@keyframes slideout2 {
+    from {
+        transform: translateX(calc(2.3vw + 18em));
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+.show2 {
+    position: fixed;
+    top: 50vh;
+    left: calc(2.3vw + 18em);
+    z-index: 2;
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    animation: slidein2 0.5s;
+}
+
+@keyframes slidein2 {
+    from {
+        transform: translateX(calc((2.3vw + 18em) * -1));
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+
+
+.showfilters {
+    writing-mode: vertical-lr;
+    transform: rotate(180deg);
+    background-color: #240046;
+    color: whitesmoke;
+    padding: 3px;
+    border-radius: 4px;
+    width: 3vh;
+    height: 13vh;
+    text-align: center;
+}
+
+.arrow {
+    width: 1.7vw;
+    height: 1.7vw;
+    margin-left: -0.6vw;
+    color: #240046;
+    z-index: 2;
+}
+
+.invertarrow {
+    width: 1.7vw;
+    height: 1.7vw;
+    margin-left: -0.6vw;
+    color: #240046;
+    z-index: 2;
+    transform: rotate(180deg);
+}
+
+
+.showfilters:hover {
+    background-color: #9d4edd;
+}
+
 
 .title {
     color: whitesmoke;
-    font-size: 35px;
+    font-size: 25px;
     height: 50px;
     font-weight: bold;
 }

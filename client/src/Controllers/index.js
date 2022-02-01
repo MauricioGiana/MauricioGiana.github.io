@@ -55,3 +55,4 @@ export const deletaAllFavorites = async () => {
     const { data } = await axios.delete(`http://localhost:3001/favorites/deleteall`);
     return data
 }
+

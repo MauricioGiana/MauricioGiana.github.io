@@ -29,7 +29,6 @@ export default function Pokemons({ specificPokemons }) {
 
     if (specificPokemons) pokemons = specificPokemons;
 
-    if (loading) return <h1>Loading...</h1>
     if (!pokemons.length) return <h2>No pokemons found</h2>
 
     return (

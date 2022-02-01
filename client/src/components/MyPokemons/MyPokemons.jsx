@@ -51,7 +51,7 @@ export default function MyPokemons() {
             <div className={styles.header}>
             <input className="back" type="button" value="<< Back" onClick={() => navigate(-1)} />
             <h1>My Pokemons</h1>
-            <input className="delete" type="button" value="Delete all pokemons" onClick={handleDeleteAll} />
+            <input className={styles.deletebtn} type="button" value="Delete all pokemons" onClick={handleDeleteAll} />
             </div>
             <div className={styles.pokemons}>
             <Pokemons specificPokemons={mypokemons}/>
