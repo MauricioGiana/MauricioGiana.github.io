@@ -33,11 +33,21 @@ router.get("/", async (req, res, next) => {
             const { order } = req.query;
             const [prop, ord] = order.split("-");
             if (ord === "asc") response.sort((a, b) => {
+                if (prop === "name") {
+                    if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
+                    if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
+                    return 0;
+                };
                 if (a[prop] > b[prop]) return 1;
                 if (a[prop] < b[prop]) return -1;
                 return 0;
             })
             else response.sort((a, b) => {
+                if (prop === "name") {
+                    if (a.name.toLowerCase() < b.name.toLowerCase()) return 1;
+                    if (a.name.toLowerCase() > b.name.toLowerCase()) return -1;
+                    return 0;
+                };
                 if (a[prop] < b[prop]) return 1;
                 if (a[prop] > b[prop]) return -1;
                 return 0;
@@ -73,7 +83,7 @@ router.get("/:idPokemon", async (req, res, next) => {
     try {
         const pokemonApi = await fetchPokemons(idPokemon);
         if (pokemonApi) return res.json(pokemonApi);
-        const pokemonDb = await Pokemon.findOne({ where: { id: idPokemon }, include:  Type  });
+        const pokemonDb = await Pokemon.findOne({ where: { id: idPokemon }, include: Type });
         if (pokemonDb) return res.json(pokemonDb);
         return res.status(404).json({ message: "Pokemon not found" });
     } catch (error) {
@@ -98,7 +108,7 @@ router.post("/", async (req, res, next) => {
             pokemon.addTypes(typesDb.map(type => type.id));
         }
         created ?
-            res.status(200).json({msg: "Pokemon created successfully"}) :
+            res.status(200).json({ msg: "Pokemon created successfully" }) :
             res.status(400).json({ msg: "Pokemon already exists" });
     } catch (error) {
         next(error);
@@ -114,12 +124,12 @@ router.put("/edit/:idPokemon", async (req, res, next) => {
     const { idPokemon } = req.params;
     try {
         await Pokemon.update(newParams, { where: { id: idPokemon } });
-    if (types && types.length) {
-        const typesDb = await Type.findAll({ where: { name: types } });
-        const pokemon = await Pokemon.findOne({ where: { id: idPokemon } });
-        pokemon.setTypes(typesDb.map(type => type.id));
-        res.json({ msg: "Pokemon updated successfully" });
-    }
+        if (types && types.length) {
+            const typesDb = await Type.findAll({ where: { name: types } });
+            const pokemon = await Pokemon.findOne({ where: { id: idPokemon } });
+            pokemon.setTypes(typesDb.map(type => type.id));
+            res.json({ msg: "Pokemon updated successfully" });
+        }
     } catch (error) {
         next(error);
     }
