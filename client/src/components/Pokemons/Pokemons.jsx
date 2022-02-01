@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router';
 import PokemonCard from '../PokemonCard/PokemonCard';
@@ -9,13 +9,12 @@ export default function Pokemons({ specificPokemons }) {
     const dispatch = useDispatch();
     let endpoint = useLocation().search;
     endpoint = endpoint.length ? endpoint : false;
-    const [loading, setLoading] = useState(true);
+
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 await dispatch(getPokemons(endpoint));
-                setLoading(false);
             }
             catch (error) {
                 console.log(error);

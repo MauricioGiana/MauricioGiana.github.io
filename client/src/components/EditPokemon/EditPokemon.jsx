@@ -149,7 +149,7 @@ export default function CreatePokemon() {
                                                     <button
                                                         key={type}
                                                         className={styles.typeselected}
-                                                        onClick={addOrQuitType} key={type.id}
+                                                        onClick={addOrQuitType}
                                                         value={type}
                                                     >
                                                         <input type="image" value={type} src={PokemonTypes[type]} alt="" />
@@ -166,7 +166,7 @@ export default function CreatePokemon() {
                                                     <button
                                                         key={type.id}
                                                         className={input.types.find(t => t === type.name) ? styles.typeselected : styles.typebtn}
-                                                        onClick={addOrQuitType} key={type.id}
+                                                        onClick={addOrQuitType}
                                                         value={type.name}
                                                     >
                                                         <input type="image" value={type.name} src={PokemonTypes[type.name]} alt="" />

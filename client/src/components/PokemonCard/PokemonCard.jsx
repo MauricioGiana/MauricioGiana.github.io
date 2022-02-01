@@ -6,7 +6,6 @@ import { getFavorites } from '../../redux/actions';
 import styles from './PokemonCard.module.css';
 import { BsPersonCheckFill } from "react-icons/bs";
 import { AiOutlineStar, AiTwotoneStar } from "react-icons/ai";
-import typebug from '../../assets/images/types_logos/type_bug.png';
 import PokemonTypes from '../PokemonTypes/PokemonTypes';
 
 export class PokemonCard extends Component {

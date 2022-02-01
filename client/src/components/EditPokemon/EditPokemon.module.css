@@ -19,7 +19,6 @@
 }
 
 .header > input {
-    margin-right: 6vw;
     width: 10%;
     height: 50%;
     font-size: 50%;
@@ -35,6 +34,7 @@
     font-size: 4vw;
     font-weight: bold;
     text-shadow: whitesmoke 0 0 10px;
+    margin-left: 15vw;
 }
 
 .form {

@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
-import { getTypes, getPokemonsByType, getPokemons } from '../../redux/actions';
+import { getTypes, getPokemons } from '../../redux/actions';
 import styles from './Filters.module.css';
 import { IoIosArrowDroprightCircle } from 'react-icons/io';
 
@@ -114,18 +114,6 @@ export default function Filters({ endpoint }) {
         };
     }
 
-    const filterTypes = (event) => {
-        event.preventDefault();
-        const { value } = event.target;
-        const filter = async () => {
-            try {
-                await dispatch(getPokemonsByType(value));
-            } catch (error) {
-                console.log(error);
-            }
-        }
-        filter();
-    }
 
     const handleShowFilters = (e) => {
         e.preventDefault();

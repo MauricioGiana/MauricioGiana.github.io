@@ -3,19 +3,24 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    width: 100%;
+    width: 80%;
     height: 100%;
-    gap: 20px;
+    gap: 1.7vw;
     position: sticky;
-    bottom: 10px;
+    bottom: 0px;
+    background-color: rgba(36, 0, 70, 0.8);
+    padding-bottom: 10px;
+    padding-top: 8px;
+    border-top-left-radius: 2vw;
+    border-top-right-radius: 2vw;
 }
 
 .firstlast {
-    width: 120px;
-    height: 30px;
-    font-size: 20px;
+    width: 9vw;
+    height: 2.3vw;
+    font-size: 1.5vw;
     background-color: #240046;
-    border: 2px solid #bbadff;
+    border: 0.25vw solid #bbadff;
     color: #bbadff;
     cursor: pointer;
     transition: 0.3s;
@@ -23,11 +28,11 @@
 }
 
 .prevnext {
-    width: 50px;
-    height: 30px;
-    font-size: 20px;
+    width: 4vw;
+    height: 2.3vw;
+    font-size: 1.5vw;
     background-color: #240046;
-    border: 2px solid #bbadff;
+    border: 0.25vw solid #bbadff;
     color: #bbadff;
     cursor: pointer;
     transition: 0.3s;
@@ -37,39 +42,45 @@
 .container > input:hover {
     background-color: #bbadff;
     color: #240046;
-    border: 2px solid #240046;
+    border: 0.25vw solid #240046;
 }
 
 
 .divpages {
     display: flex;
-    gap: 5px;
+    gap: 0.5vw;
 }
 
 .nocurrent {
-    width: 30px;
-    height: 30px;
-    font-size: 20px;
+    width: 2.3vw;
+    height: 2.3;
+    font-size: 1.5vw;
     background-color: #240046;
-    border: 2px solid #bbadff;
+    border: 0.25vw solid #bbadff;
     color: #bbadff;
     cursor: pointer;
     transition: 0.3s;
     border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .nocurrent:hover {
     background-color: #bbadff;
     color: #240046;
-    border: 2px solid #240046;
+    border: 0.25vw solid #240046;
 }
 
 .current {
-    width: 30px;
-    height: 30px;
-    font-size: 20px;
+    width: 2.3vw;
+    height: 2.3vw;
+    font-size: 1.5vw;
     background-color: #bbadff;
     color: #240046;
-    border: 2px solid #240046;
+    border: 0.25vw solid #240046;
     border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

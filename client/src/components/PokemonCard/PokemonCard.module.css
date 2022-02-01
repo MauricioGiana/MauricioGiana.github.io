@@ -33,8 +33,8 @@
     align-items: flex-start;
     height: 5.5vw;
     background-color: #38413f;
-    border-top-left-radius: 1.2vw;
-    border-top-right-radius: 1.2vw;
+    border-top-left-radius: 1vw;
+    border-top-right-radius: 1vw;
     color: white;
     transition: 0.3s;
 }
@@ -131,8 +131,8 @@
     display: flex;
     flex-direction: column;
     background-color: rgb(56, 65, 63);
-    border-bottom-left-radius: 12px;
-    border-bottom-right-radius: 12px;
+    border-bottom-left-radius: 1vw;
+    border-bottom-right-radius: 1vw;
     height: 100%;
 }
 
@@ -168,8 +168,8 @@
     font-size: 1vw;
     height: 2vw;
     width: 100%;
-    border-bottom-left-radius: 1.2vw;
-    border-bottom-right-radius: 1.2vw;
+    border-bottom-left-radius: 1vw;
+    border-bottom-right-radius: 1vw;
     color: whitesmoke;
 }
 

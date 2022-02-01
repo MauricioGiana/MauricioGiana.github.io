@@ -5,7 +5,7 @@ import { getTypes } from "../../redux/actions";
 import { createPokemon } from '../../Controllers';
 import styles from './CreatePokemon.module.css';
 import PokemonTypes from '../PokemonTypes/PokemonTypes';
-import { AiOutlineCheckCircle } from 'react-icons/ai';
+
 
 export default function CreatePokemon() {
     const [input, setInput] = useState({
@@ -144,7 +144,7 @@ export default function CreatePokemon() {
                                                     <button
                                                         key={type}
                                                         className={styles.typeselected}
-                                                        onClick={addOrQuitType} key={type.id}
+                                                        onClick={addOrQuitType}
                                                         value={type}
                                                     >
                                                         <input type="image" value={type} src={PokemonTypes[type]} alt="" />
@@ -161,7 +161,7 @@ export default function CreatePokemon() {
                                                     <button
                                                         key={type.id}
                                                         className={input.types.find(t => t === type.name) ? styles.typeselected : styles.typebtn}
-                                                        onClick={addOrQuitType} key={type.id}
+                                                        onClick={addOrQuitType}
                                                         value={type.name}
                                                     >
                                                         <input type="image" value={type.name} src={PokemonTypes[type.name]} alt="" />
